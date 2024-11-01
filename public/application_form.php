@@ -90,7 +90,7 @@ if ($formHtmlResult && $programDetailResult) {
 }
 ?>
 <div class="container mt-3 pt-5" style="min-height: 100vh">
-    <form id="applicationForm" method="POST" action="#">
+    <form id="applicationForm" method="POST" action="#" class="d-flex flex-column" >
         <div class="row d-flex justify-content-center my-4">
             <div class="col-md-6">
                 <div class="card">

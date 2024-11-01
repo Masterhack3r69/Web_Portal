@@ -5,7 +5,10 @@
   </div>
   <!-- Core JS Files -->
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script src="../../../assets/js/core/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -32,6 +35,7 @@
 <script src="../../../assets/js/main.js"></script>
 <script src="../../../assets/js/form_builder.js"></script>
 <script src="../../../assets/js/sweetAlertcustom.js"></script>
+<script src="../index.php"></script>
 
     
 <script>
@@ -82,7 +86,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+let logoutTimer;
+
+function resetLogoutTimer() {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(() => {
+        fetch('../../logout.php', { method: 'GET' }) 
+            .then(() => {
+                window.location.href = '../index.php'; 
+            })
+            .catch(error => console.error('Logout error:', error));
+    }, 30 * 60 * 1000); 
+}
+
+window.onload = resetLogoutTimer;
+document.onmousemove = resetLogoutTimer;
+document.onkeydown = resetLogoutTimer;
+document.onclick = resetLogoutTimer;
+document.onscroll = resetLogoutTimer;
+
 </script>
+
 
 </body>
 </html>

@@ -46,25 +46,25 @@ function addField() {
 
     switch (fieldType) {
         case 'text':
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <input type="text" name="${fieldLabel}" class="form-control" placeholder="Enter ${fieldLabel}" ${requiredAttr}>
                         </div>`;
             break;
         case 'textarea':
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <textarea name="${fieldLabel}" class="form-control" rows="3" placeholder="Enter ${fieldLabel}" ${requiredAttr}></textarea>
                         </div>`;
             break;
         case 'email':
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <input type="email" name="${fieldLabel}" class="form-control" placeholder="Enter ${fieldLabel}" ${requiredAttr}>
                         </div>`;
             break;
         case 'number':  
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <input type="number" name="${fieldLabel}" class="form-control" placeholder="Enter ${fieldLabel}" ${requiredAttr}>
                         </div>`;
@@ -75,7 +75,7 @@ function addField() {
                     <input type="radio" name="${fieldLabel}" class="form-check-input" value="${option.trim()}" ${requiredAttr}>
                     <label class="form-check-label">${option.trim()}</label>
                 </div>`).join('');
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label d-block">${fieldLabel}:</label>
                             <div class="${inlineClass ? 'd-inline-flex' : ''}">
                                 ${radioOptions}
@@ -84,7 +84,7 @@ function addField() {
             break;
         case 'select':
             const selectOptions = fieldOptions.split(',').map(option => `<option>${option.trim()}</option>`).join('');
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <select name="${fieldLabel}" class="form-select" ${requiredAttr}>
                                 ${selectOptions}
@@ -97,7 +97,7 @@ function addField() {
                     <input type="checkbox" name="${fieldLabel}[]" value="${option.trim()}" class="form-check-input" ${requiredAttr}>
                     <label class="form-check-label ">${option.trim()}</label>
                 </div>`).join('');
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label d-block">${fieldLabel}:</label>
                             <div class="${inlineClass ? 'd-inline-flex' : ''}">
                                 ${checkboxOptions}
@@ -105,25 +105,26 @@ function addField() {
                         </div>`;
             break;
         case 'date':
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <input type="date" name="${fieldLabel}" class="form-control" ${requiredAttr}>
                         </div>`;
             break;
         case 'file':
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <label class="form-check-label">${fieldLabel}:</label>
                             <input type="file" name="${fieldLabel}" class="form-control" ${requiredAttr}>
                         </div>`;
             break;
         case 'header':
-            newField = `<div class="mb-3" id="field-${fieldCount}">
+            newField = `<div class="mb-3 col-12" id="field-${fieldCount}">
                             <h3>${fieldLabel}</h3>
                         </div>`;
             break;
         default:
             newField = '';
     }
+
     if (newField) {
         formFields.insertAdjacentHTML('beforeend', newField);
         addToFieldList(fieldLabel, fieldCount);

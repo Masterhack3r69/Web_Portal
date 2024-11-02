@@ -7,6 +7,9 @@
 
    $programs_sql = "SELECT * FROM programs WHERE department_id = ?";
    $programs = query($programs_sql, [$department_id])->fetch_all(MYSQLI_ASSOC);
+
+   $news_sql = "SELECT * FROM news WHERE department_id = ? AND status = 'published' ORDER BY created_at DESC";
+    $news = query($news_sql, [$department_id])->fetch_all(MYSQLI_ASSOC);
  }
 ?>
 <div class="breadcrumb-container mt-3 pt-5">
@@ -77,62 +80,37 @@
         <?php endif; ?>
     </div>
 </div>
-<div class="container-fluid bg-white mb-5" id="news-container">
+<div class="container-fluid bg-white" id="news-container">
   <div class="row pb-4">
-    <div class="col-md-12">
-      <div class="title text-center p-4">
+  <div class="col-md-12">
+    <div class="title text-center p-4">
         <h4 class="text-black">News and Updates</h4>
-      </div>
-      <div class="card mb-3 shadow-sm border">
-        <div class="row">
-          <div class="col-md-4 h-100">
-            <img src="../assets/img/curved-images/curved-11.jpg" class="img-fluid rounded-start">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">This is an  Update</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore totam sunt dicta necessitatibus? Veniam eaque ullam nesciunt reiciendis esse molestias, repellendus ipsa alias. Deserunt, illum. Amet voluptate vero magni porro. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae, inventore! Suscipit sunt, tenetur delectus quaerat iste, ea repellat labore deserunt doloribus inventore fugiat ad repellendus ullam, placeat vero ipsam earum.</p>
-              <p class="card-text float-end"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3 shadow-sm border">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">This is an  Update</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore totam sunt dicta necessitatibus? Veniam eaque ullam nesciunt reiciendis esse molestias, repellendus ipsa alias. Deserunt, illum. Amet voluptate vero magni porro. Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
-              <p class="card-text float-end"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-          <div class="col-md-4 h-100">
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="../assets/img/curved-images/curved-11.jpg" class="d-block w-100 rounded-end" alt="...">
-                </div>
-                <div class="carousel-item">
-                  <img src="../assets/img/curved-images/curved-10.jpg" class="d-block w-100 rounded-end" alt="...">
-                </div>
-                <div class="carousel-item">
-                  <img src="../assets/img/curved-images/curved-8.jpg" class="d-block w-100 rounded-end" alt="...">
-                </div>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
+
+    <?php if ($news): ?>
+        <?php foreach ($news as $newsItem): ?>
+            <div class="card mb-3 shadow-sm border">
+                <div class="row">
+                    <div class="col-md-4 h-100">
+                        <img src="<?php echo htmlspecialchars($newsItem['image_url']); ?>" class="img-fluid rounded-start" alt="News Image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($newsItem['title']); ?></h5>
+                            <p><?php echo htmlspecialchars($newsItem['small_description']); ?></p>
+                            <p class="card-text float-end"><small class="text-muted">Last updated <?php echo time_ago($newsItem['created_at']); ?></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="text-center text-muted">
+            No news updates available for this department.
+        </div>
+    <?php endif; ?>
+
+</div>
   </div>
 </div>
 <?php include './includes/footer.php'; ?>

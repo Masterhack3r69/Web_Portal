@@ -146,48 +146,116 @@ nav ul li a:hover {
   flex-grow: 1;
   letter-spacing: 2px;
 }
-
+/* Container for Department Slider */
 .department-container {
+  position: relative;
   background: linear-gradient(to right, #17A567, #D6F9E9, #17A567);
-
+  overflow: hidden;
 }
+
+/* Slider wrapper */
+.logos-slider {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.logos-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
 .logo-container {
   position: relative;
-  display: inline-block;
-  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+
+
 .logo-img {
-  transition: transform 0.3s ease, filter 0.3s ease;
-  width: 160px; 
-  height: auto;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
+  transition: filter 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
 
 .logo-container:hover .logo-img {
   transform: scale(1.05);
-  filter: blur(3px); 
+  filter: blur(2px); 
 }
-
 .overlay-text {
   position: absolute;
   bottom: 50%; 
   left: 50%;
-  transform: translate(-50%, 50%); 
-  background-color: rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, 50%);
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   text-align: center;
-  font-size: 12px; 
+  font-size: 12px;
   padding: 5px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   width: 100%;
   border-radius: 10px;
 }
 
 .logo-container:hover .overlay-text {
   opacity: 1;
+   /* Adjust position on hover */
 }
+
+/* Arrow buttons */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.arrow:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .logo-img {
+      width: 120px;
+      height: 120px;
+  }
+
+  .overlay-text {
+      font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-img {
+      width: 100px;
+      height: 100px;
+  }
+
+  .overlay-text {
+      font-size: 9px;
+  }
+}
+
 
 
 .multi-line-text-truncate-3 {

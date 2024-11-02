@@ -21,38 +21,34 @@
       </nav>
     </div>
 
-    <!-- Hamburger Icon for Smaller Screens -->
     <div class="nav-icon d-md-none" title="Menu" onclick="toggleMenu()">
       <i class="fas fa-bars"></i>
     </div>
 
-    <!-- Register/Login Section -->
-    <div class="register-login d-none d-md-flex">
-      <?php if (isset($_SESSION['username'])) { ?>
-        <div class="dropdown log-in-btn">
-          <a href="#" class="text-decoration-none" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="color: inherit; font-size: 1.2em;">
-            <i class="fas fa-user-circle"></i> <?php echo $_SESSION['username']; ?>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton" style="min-width: 200px; font-size: 1.1em;">
-            <li><a class="dropdown-item d-flex align-items-center profile-dropdown" href="./users/profile.php">
-              <i class="fas fa-user me-2"></i> My Profile
-            </a></li>
-            <li><a class="dropdown-item d-flex align-items-center profile-dropdown" href="./users/notifications.php">
-              <i class="fas fa-bell me-2"></i> Notifications
-            </a></li>
-            <li><a class="dropdown-item d-flex align-items-center profile-dropdown" href="./logout.php">
-              <i class="fas fa-sign-out-alt me-2"></i> Sign Out
-            </a></li>
-          </ul>
+    <div class="registera-login d-none d-md-flex">
+    <?php if (isset($_SESSION['username'])) { ?>
+        <div class="dropdown dropdown-start log-in-btn">
+            <a href="#" class="dropbtn" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="color: inherit; font-size: 1.2em;">
+                <i class="fas fa-user-circle"></i> <?php echo $_SESSION['username']; ?>
+            </a>
+            <div class="dropdown-content " aria-labelledby="userMenuButton" style="right: 0;">
+              <a class="dropdown-item d-flex align-items-center profile-dropdown" href="./users/profile.php">
+                  <i class="fas fa-user me-2"></i> My Profile
+              </a>
+              <a class="dropdown-item d-flex align-items-center profile-dropdown" href="./users/notifications.php">
+                  <i class="fas fa-bell me-2"></i> Notifications
+              </a>
+              <a class="dropdown-item d-flex align-items-center profile-dropdown" href="./logout.php">
+                  <i class="fas fa-sign-out-alt me-2"></i> Sign Out
+              </a>
+            </div>
         </div>
-      <?php } else { ?>
-        <a id="login" href="./users/login_resident.php" class="login-btn">Login</a>
+    <?php } else { ?>
+        <a id="login" href="./users/login_resident.php" class="login-btn me-1">Login</a>
         <a href="./users/register_resident.php" class="register-btn">Register</a>
-      <?php } ?>
-    </div>
-  </div>
+    <?php } ?>
+</div>
 
-  <!-- Responsive Menu -->
   <div id="responsiveMenu" class="d-md-none" style="display: none;">
     <nav>
       <ul>

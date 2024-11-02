@@ -62,22 +62,75 @@
         });
     });
 
+    const logosWrapper = document.querySelector('.logos-wrapper');
+const logoContainers = document.querySelectorAll('.logo-container');
+let currentIndex = 0;
+const totalLogos = logoContainers.length;
+
+function getLogoWidth() {
+    return document.querySelector('.logo-img').offsetWidth + 10; // Adjust based on logo width + margin
+}
+
+// Function to move to the next logo
+function moveToNext() {
+    if (currentIndex < totalLogos - 1) {
+        currentIndex++;
+        updateSliderPosition();
+    }
+}
+
+// Function to move to the previous logo
+function moveToPrev() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateSliderPosition();
+    }
+}
+
+// Update the position of the slider
+function updateSliderPosition() {
+    const offset = -currentIndex * getLogoWidth();
+    logosWrapper.style.transform = `translateX(${offset}px)`;
+}
+
+// Add event listeners for navigation
+document.addEventListener('DOMContentLoaded', () => {
+    const leftArrow = document.createElement('button');
+    leftArrow.className = 'arrow arrow-left';
+    leftArrow.innerHTML = '&lt;';
+    leftArrow.onclick = moveToPrev;
+
+    const rightArrow = document.createElement('button');
+    rightArrow.className = 'arrow arrow-right';
+    rightArrow.innerHTML = '&gt;';
+    rightArrow.onclick = moveToNext;
+
+    document.querySelector('.department-container').appendChild(leftArrow);
+    document.querySelector('.department-container').appendChild(rightArrow);
+
+    // Adjust slider position on window resize for responsiveness
+    window.addEventListener('resize', updateSliderPosition);
+});
+
+
     </script>
-    <script>
+   <script>
     // JavaScript to Show the Spinner Overlay with a Delay
-    document.querySelectorAll('a').forEach(link => {
+    const spinnerLinks = document.querySelectorAll('.sign-out, .profile-dropdown, .dropdown-item[href="./users/notifications.php"], a:not([href^="index.php#"])');
+
+    spinnerLinks.forEach(link => {
         link.addEventListener('click', function(event) {
-            // Check if the link is an internal link (same page)
+            // Check if the link is a same-page link
             const isSamePageLink = link.getAttribute('href').startsWith('index.php#');
 
             // If it's not a same-page link, show the spinner
             if (!isSamePageLink) {
-                event.preventDefault();
+                event.preventDefault(); // Prevent default action
                 document.body.classList.add('show-spinner');
 
                 // Delay navigation to let the spinner show
                 setTimeout(() => {
-                    window.location.href = link.href;
+                    window.location.href = link.href; // Navigate after delay
                 }, 300); // 300ms delay to match transition
             }
         });
@@ -90,6 +143,7 @@
         }, 300); // 300ms delay to let the fade-out transition finish
     });
 </script>
+
 
     
   </body>

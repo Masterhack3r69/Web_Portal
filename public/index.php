@@ -1,7 +1,6 @@
   <?php include './includes/header.php'; 
+  $programs = query("SELECT p.id, p.title, p.description, p.banner_image, d.department_name FROM programs p INNER JOIN departments d ON p.department_id = d.id LIMIT 4")->fetch_all(MYSQLI_ASSOC);
   $latestNews = query("SELECT id, title, small_description, created_at FROM news WHERE status = 'approved' ORDER BY created_at DESC LIMIT 4")->fetch_all(MYSQLI_ASSOC);
-
-  
   ?>
   <div class="video-container">
     <img src="../assets/img/website_img/IMG_8794.PNG" alt="header"  style="height: 100%; width: 100%; object-fit: cover;">
@@ -14,6 +13,7 @@
       </div>
     </div>
   </div> 
+  
   <?php include 'breadcrumb.php'; ?>
   <div class="department-container mb-5">
     <div class="title text-center pt-3">
@@ -39,7 +39,6 @@
     <?php endif; ?>
 </div>
 
-
   <div class="container-fluid mt-3">
     <div class="row mb-5">
       <div class="col-md-12">
@@ -54,8 +53,7 @@
               <div class="card-body pb-0">  
                 <div class="row">
                 <?php
-                  $sql = "SELECT p.id, p.title, p.description, p.banner_image, d.department_name FROM programs p INNER JOIN departments d ON p.department_id = d.id";
-                  $programs = query($sql)->fetch_all(MYSQLI_ASSOC);
+                  
                   foreach ($programs as $program) :
                   ?>
                   <div class="col-md-6 col-sm-12 mb-2">
@@ -80,7 +78,6 @@
               </div>
           </div>
           <div class="col-md-3 col-sm-12">
-          
               <div class="card h-100">
                   <div class="title card-header pb-0">
                       <h5>
@@ -108,9 +105,7 @@
                       </div>
                       <?php endforeach; ?>
                   </div>
-                  <div class="text-center">
-                      <a class="btn link-btn p-2 px-3" type="button" href="news_update.php">See More</a>
-                  </div>
+                  
               </div>
           </div>
         </div>
@@ -181,8 +176,8 @@
 </div>
 
 <div id="contact" class="container-fluid py-5" style="background-image: url('../assets/img/website_img/IMG_8799.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-  <div class="row d-flex align-items-center justify-content-center text-center">
-    <div class="col-md-7 w-40 py-4 rounded-3" style=" background-color: rgba(0,0,0,0.4);"> 
+  <div class="row d-flex  justify-content-center text-center">
+    <div class="col-md-6 py-4 rounded-3 mb-3" style=" background-color: rgba(0,0,0,0.4);"> 
       <div class="text-white mb-5">
         <h3 class="text-white mb-5">Contact Information</h3>
         <div class="mb-4">
@@ -208,7 +203,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div class="card">
         <div class="card-header text-center">
           <h3>Send us a Message</h3>
@@ -245,5 +240,3 @@
   </div>
 </div>
 <?php include './includes/footer.php'; ?>
-
-</script>

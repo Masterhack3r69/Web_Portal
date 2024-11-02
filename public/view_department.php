@@ -77,7 +77,6 @@
         <?php endif; ?>
     </div>
 </div>
-<!-- news and update (not going to finish) -->
 <div class="container-fluid bg-white mb-5" id="news-container">
   <div class="row pb-4">
     <div class="col-md-12">

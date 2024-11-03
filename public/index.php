@@ -252,46 +252,4 @@
   </div>
 </div>
 <?php include './includes/footer.php'; ?>
-<script>
-    document.getElementById("messageForm").addEventListener("submit", function (e) {
-        e.preventDefault();
 
-        const emailInput = document.getElementById('floatingInput');
-        const emailError = document.getElementById('emailError');
-
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-        // Validate email
-        if (!emailPattern.test(emailInput.value)) {
-            emailError.style.display = 'block'; 
-            return; 
-        }
-
-        emailError.style.display = 'none'; 
-
-        const formData = new FormData(this); 
-        fetch("submit_message.php", {
-            method: "POST",
-            body: formData,
-        })
-            .then((response) => response.text())
-            .then((data) => {
-                Swal.fire({
-                    title: "Success!",
-                    text: data,
-                    icon: "success",
-                    confirmButtonText: "OK",
-                });
-                document.getElementById("messageForm").reset(); 
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                Swal.fire({
-                    title: "Error!",
-                    text: "An error occurred. Please try again.",
-                    icon: "error",
-                    confirmButtonText: "OK",
-                });
-            });
-    });
-</script>

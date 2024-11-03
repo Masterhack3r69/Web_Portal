@@ -23,7 +23,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Dashboard Scripts -->
-<script src="../../../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+<script src="../../../assets/js/main_bootrap.min.js"></script>
+<script src="../../../assets/js/main_bootrap.js"></script>
 
 <!-- Text Editor (Summernote) -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -32,7 +33,7 @@
 <script src="../../../assets/js/sweetalert.min.js"></script>
 
 <!-- Custom JS Files -->
-<script src="../../../assets/js/main.js"></script>
+<script src="../../../assets/js/dashboard_main.js"></script>
 <script src="../../../assets/js/form_builder.js"></script>
 <script src="../../../assets/js/sweetAlertcustom.js"></script>
 <script src="../index.php"></script>
@@ -49,8 +50,6 @@
     });
     
 </script>
-
-
 <script>
     function getRandomGradient() {
     const colors = [
@@ -106,9 +105,6 @@ document.onkeydown = resetLogoutTimer;
 document.onclick = resetLogoutTimer;
 document.onscroll = resetLogoutTimer;
 
-
-
-
 </script>
 
 <script>
@@ -142,7 +138,5 @@ function searchBar() {
   noMatchMessage.style.display = (filter && !Array.from(tr).some(row => row.style.display !== "none")) ? "block" : "none";
 }
 </script>
-
-
 </body>
 </html>

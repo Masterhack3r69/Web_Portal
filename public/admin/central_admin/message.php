@@ -1,13 +1,13 @@
 <?php
-$title = "News & Updates Management";
+$title = "Feedback Management"; // Updated title
 include '../includes/header.php';
 
 // Update messages to 'read' where the status is 'unread'
 $query_update = "UPDATE messages SET status = 'read' WHERE status = 'unread'";
 query($query_update); // Execute the update query
 
-// Define the SQL query to fetch messages
-$query_select = "SELECT email, message, created_at FROM messages ORDER BY created_at DESC";
+// Define the SQL query to fetch feedback messages
+$query_select = "SELECT email, message, feedback_type, created_at FROM messages ORDER BY created_at DESC";
 
 // Execute the select query using the custom query function
 $result = query($query_select);
@@ -25,7 +25,8 @@ $result = query($query_select);
                       <i class="fas fa-envelope" aria-hidden="true"></i> 
                       From: <?= htmlspecialchars($row['email']) ?>
                   </h6>
-                  <div class="border p-3 pb-1">
+                  <p style="font-size: 0.8em; color: #888;"><strong>Feedback Type:</strong> <?= htmlspecialchars($row['feedback_type']) ?></p>
+                      <div class="border p-3 pb-1">
                       <p class="card-text"><?= htmlspecialchars($row['message']) ?></p>
                       <small class="text-muted" style="font-size: 0.7em;"><?= time_ago($row['created_at']) ?></small>
                   </div>

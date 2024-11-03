@@ -25,28 +25,31 @@
             </h5>
           </div>
           <ul class="navbar-nav justify-content-end flex-row flex-wrap ms-auto">
-          <li class="nav-item dropdown position-relative d-flex align-items-center">
-          <?php if ($_SESSION['admin_type'] === 'central'): ?>
-            <?php
-              $message_query = query("SELECT COUNT(*) as unread_count FROM messages WHERE status = 'unread'");
-              $row = $message_query->fetch_assoc();
-              $unread_messages = $row['unread_count'];
-            ?>
-            <li class="nav-item dropdown position-relative d-flex align-items-center me-4">
-              <?php if ($unread_messages > 0): ?>
-                <span class="notification-dot position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6em;">
-                  <?php echo $unread_messages; ?>
-                  <span class="visually-hidden">unread messages</span>
-                </span>
-              <?php else: ?>
-                <span class="notification-dot position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 1em;"></span>
+            <li class="nav-item dropdown position-relative d-flex align-items-center">
+              <?php if ($_SESSION['admin_type'] === 'central'): ?>
+                  <?php
+                      // Query to count unread feedback messages
+                      $message_query = query("SELECT COUNT(*) as unread_count FROM messages WHERE status = 'unread'");
+                      $row = $message_query->fetch_assoc();
+                      $unread_messages = $row['unread_count'];
+                  ?>
+                  <li class="nav-item dropdown position-relative d-flex align-items-center me-4">
+                      <?php if ($unread_messages > 0): ?>
+                          <span class="notification-dot position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6em;">
+                              <?php echo $unread_messages; ?>
+                              <span class="visually-hidden">unread messages</span>
+                          </span>
+                      <?php else: ?>
+                          <span class="notification-dot position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 1em;"></span>
+                      <?php endif; ?>
+                      
+                      <a class="nav-link text-body my-0 px-1 p-0" href="../central_admin/message.php" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-envelope fa-lg text-primary"></i>
+                      </a>
+                  </li>
               <?php endif; ?>
-              
-              <a class="nav-link text-body my-0 px-1 p-0" href="../central_admin/message.php" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-lg text-primary"></i>
-              </a>
             </li>
-          <?php endif; ?>
+
 
             <li class="nav-item d-none d-lg-flex align-items-center me-2 ">
               <a class="btn btn-outline-primary btn-sm mb-0 px-3  py-2" target="_blank" href="../../../public/index.php">Visit Website</a>

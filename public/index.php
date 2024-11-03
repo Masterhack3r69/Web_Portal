@@ -1,5 +1,6 @@
   <?php include './includes/header.php'; 
   $programs = query("SELECT p.id, p.title, p.description, p.banner_image, d.department_name FROM programs p INNER JOIN departments d ON p.department_id = d.id LIMIT 4")->fetch_all(MYSQLI_ASSOC);
+
   $latestNews = query("SELECT id, title, small_description, created_at FROM news WHERE status = 'approved' ORDER BY created_at DESC LIMIT 4")->fetch_all(MYSQLI_ASSOC);
   ?>
   <div class="video-container">
@@ -205,39 +206,92 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="card">
-        <div class="card-header text-center">
-          <h3>Send us a Message</h3>
-        </div>
-        <div class="card-body">
-          <form id="messageForm">
-            <div class="form-floating mb-3">
-              <input
-                type="email"
-                class="form-control"
-                id="floatingInput"
-                name="email"
-                placeholder="name@example.com"
-                required
-              />
-              <label for="floatingInput">Email address</label>
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Send Us Your Feedback</h3>
             </div>
-            <div class="form-floating mb-3">
-              <textarea
-                class="form-control"
-                placeholder="Leave a comment here"
-                id="floatingTextarea2"
-                name="message"
-                style="height: 100px"
-                required
-              ></textarea>
-              <label for="floatingTextarea2">Comments</label>
+            <div class="card-body">
+                <form id="messageForm">
+                    <div class="form-floating mb-3">
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="floatingInput"
+                            name="email"
+                            placeholder="name@example.com"
+                            required
+                        />
+                        <label for="floatingInput">Email address</label>
+                        <div id="emailError" class="text-danger" style="display: none;">Please enter a valid email address.</div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-control" id="feedbackType" name="feedback_type" required>
+                            <option value="">Select Feedback Type</option>
+                            <option value="Bug Report">Bug Report</option>
+                            <option value="Feature Request">Feature Request</option>
+                            <option value="General Feedback">General Feedback</option>
+                        </select>
+                        <label for="feedbackType">Feedback Type</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea
+                            class="form-control"
+                            placeholder="Leave your feedback here"
+                            id="floatingTextarea2"
+                            name="message"
+                            style="height: 100px"
+                            required
+                        ></textarea>
+                        <label for="floatingTextarea2">Comments</label>
+                    </div>
+                    <button type="submit" class="btn">Send Feedback</button>
+                </form>
             </div>
-            <button type="submit" class="btn">Send Message</button>
-          </form>
         </div>
-      </div>
     </div>
   </div>
 </div>
 <?php include './includes/footer.php'; ?>
+<script>
+    document.getElementById("messageForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const emailInput = document.getElementById('floatingInput');
+        const emailError = document.getElementById('emailError');
+
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        // Validate email
+        if (!emailPattern.test(emailInput.value)) {
+            emailError.style.display = 'block'; 
+            return; 
+        }
+
+        emailError.style.display = 'none'; 
+
+        const formData = new FormData(this); 
+        fetch("submit_message.php", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                Swal.fire({
+                    title: "Success!",
+                    text: data,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                });
+                document.getElementById("messageForm").reset(); 
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: "Error!",
+                    text: "An error occurred. Please try again.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            });
+    });
+</script>

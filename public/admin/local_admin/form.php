@@ -26,6 +26,10 @@ if ($result) {
                 </h5>
             </div>
             <div class="card-body">
+            <div class="mb-3 d-flex justify-content-end">
+                  <input class="form-control p-1" type="text" id="input" onkeyup="searchBar()" placeholder="Search for forms..." style="width: 250px; display: inline-block;">
+            </div>
+            <div id="tableSearch">
                 <table class="table table align-items-center text-center mb-0" style="font-size: 0.875rem;">
                     <thead>
                         <tr>
@@ -69,6 +73,8 @@ if ($result) {
                         <?php endif; ?>
                     </tbody>
                 </table>
+            </div>
+                
             </div>
         </div>
     </div>

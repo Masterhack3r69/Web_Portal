@@ -48,7 +48,7 @@ if (isset($_GET['msg']) && isset($_GET['type'])) {
 <!-- CSS Stylesheets -->
 <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
 <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
-<link id="pagestyle" href="../../../assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+<link id="pagestyle" href="../../../assets/css/main-bootstrap.css?v=1.0.7" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">

@@ -47,6 +47,7 @@
             <?php unset($_SESSION['success_message']);  ?>
         <?php endif; ?>
     });
+    
 </script>
 
 
@@ -105,6 +106,41 @@ document.onkeydown = resetLogoutTimer;
 document.onclick = resetLogoutTimer;
 document.onscroll = resetLogoutTimer;
 
+
+
+
+</script>
+
+<script>
+function searchBar() {
+  var input, filter, table, tr, td, i, txtValue, matchFound;
+  input = document.getElementById("input");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("tableSearch");
+  tr = table.getElementsByTagName("tr");
+  matchFound = false; 
+
+  for (i = 1; i < tr.length; i++) { 
+    tr[i].style.display = "";
+    var cells = tr[i].getElementsByTagName("td");
+    for (var j = 0; j < cells.length - 1; j++) { 
+      if (cells[j]) {
+        txtValue = cells[j].textContent || cells[j].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          matchFound = true;
+          break;
+        }
+      }
+    }
+    if (!matchFound) {
+      tr[i].style.display = "none"; 
+    }
+    matchFound = false; 
+  }
+
+  var noMatchMessage = document.getElementById("noMatchMessage");
+  noMatchMessage.style.display = (filter && !Array.from(tr).some(row => row.style.display !== "none")) ? "block" : "none";
+}
 </script>
 
 

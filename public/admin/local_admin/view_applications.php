@@ -5,7 +5,6 @@ include '../includes/header.php';
 if (isset($_GET['program_id'])) {
     $program_id = $_GET['program_id'];
     
-    // Fetch the program title and form_id associated with the program
     $program_info_sql = "SELECT title, form_id FROM programs WHERE id = ?";
     $program_info_result = query($program_info_sql, [$program_id]);
     
@@ -26,7 +25,6 @@ if (isset($_GET['program_id'])) {
     exit;
 }
 
-// Initialize $first_submission for table headers
 $first_submission = !empty($submissions) ? json_decode($submissions[0]['submission_data'], true) : null;
 ?>
 
@@ -34,7 +32,7 @@ $first_submission = !empty($submissions) ? json_decode($submissions[0]['submissi
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5><?php echo $program_title; ?> <a href="export_excel.php?program_id=<?php echo $program_id; ?>" class="btn btn-primary float-end">Export to Excel</a></h5>
+                <h5><?php echo $program_title; ?> <a href="export_excel.php?program_id=<?php echo $program_id; ?>" class="btn bg-gradient-success float-end">Export to Excel</a></h5>
             </div>
             <div class="table-responsive px-0 pt-0 pb-2">
                 <table class="table text-center border-0 mb-0" style="font-size: 0.875rem;">
@@ -125,29 +123,26 @@ $first_submission = !empty($submissions) ? json_decode($submissions[0]['submissi
 
 <script>
 $(document).ready(function() {
-    // When the modal is opened
     $('#statusUpdateModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var submissionId = button.data('id'); // Extract info from data-* attributes
+        var button = $(event.relatedTarget); 
+        var submissionId = button.data('id'); 
         var currentStatus = button.data('status');
         
-        // Update the modal's content
         var modal = $(this);
         modal.find('#submissionId').val(submissionId);
         modal.find('#submissionStatus').val(currentStatus);
     });
 
-    // Handle form submission
     $('#updateStatusForm').on('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
+        e.preventDefault(); 
         
         $.ajax({
             type: 'POST',
-            url: 'update_status_form.php', // Replace with your PHP script that handles the status update
+            url: 'update_status_form.php', 
             data: $(this).serialize(),
             success: function(response) {
                 $('#statusUpdateModal').modal('hide');
-                location.reload(); // Reload the page to see the changes
+                location.reload();
             },
             error: function(xhr, status, error) {
                 console.error(error);

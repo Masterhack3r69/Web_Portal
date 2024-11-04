@@ -1,5 +1,5 @@
 <?php
-$title = "News & Updates Management";
+$title = "News & Updates";
 include '../includes/header.php';
 
 

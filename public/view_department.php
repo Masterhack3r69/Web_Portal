@@ -20,7 +20,7 @@
   <div class="row my-4">
     <div class="col-md-9 mb-3">
       <div class="card h-100 shadow-sm ">
-        <img src="../assets/img/uploads/<?php echo $department['department_banner']; ?>" class="card-img-top " style="height: 300px; width:auto;" alt="">
+        <img src="../assets/img/uploads/<?php echo $department['department_banner']; ?>" class="card-img-top " style="height: 400px; object-fit: cover;" alt="">
         <div class="card-body">
           <h5 class="card-title "><?php echo $department['department_name']; ?></h5>
           <p class="card-text"><?php echo $department['description']; ?></p>
@@ -61,7 +61,7 @@
             <?php foreach ($programs as $program) : ?>
                 <div class="col-md-4 mb-3">
                     <div class="card card-box h-100">
-                        <img src="../assets/img/uploads/<?php echo ($program['banner_image']); ?>" class="card-img-top" style="height: 150px;" alt="Banner">
+                        <img src="../assets/img/uploads/<?php echo ($program['banner_image']); ?>" class="card-img-top" style="height: 150px; object-fit: cover" alt="Banner">
                         <div class="card-body pb-2">
                             <h6 class="card-title"><?php echo ($program['title']); ?></h6>
                             <div class="multi-line-text-truncate-3 mt-0">

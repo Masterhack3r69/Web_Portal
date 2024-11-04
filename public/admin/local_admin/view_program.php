@@ -119,51 +119,22 @@ if (isset($_GET['id'])) {
   <div class="col-md-6">
     <div class="card mb-3">
       <div class="card-body">
-        <h6 class="card-title">Guidelines
-          <span class="accordion-header float-end" id="guidelines">
-            <div class="sticky-top">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#guidelinesCollapse" aria-expanded="true" aria-controls="guidelinesCollapse">
-                View
-              </button>
-            </div>
-            </sp>
-        </h6>
-        <div class="accordion mb-3" id="accordionExample">
-          <div class="accordion-item">
-            
-            <div id="guidelinesCollapse" class="accordion-collapse collapse show" aria-labelledby="guidelines" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <p class="card-text"><?php echo $program['guidelines']; ?></p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h6 class="card-title">Guidelines</h6>
+        <p class="card-text"><?php echo $program['guidelines']; ?></p>
       </div>
     </div>
   </div>
+
   <div class="col-md-6">
     <div class="card mb-3">
       <div class="card-body">
-        <h6 class="card-title">Requirements 
-          <span class="accordion-header float-end" id="requirements">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#requirementsCollapse" aria-expanded="true" aria-controls="requirementsCollapse">
-                View
-              </button>
-            </sp>
-        </h6>
-        <div class="accordion mb-3" id="accordionExample">
-          <div class="accordion-item">
-            <div id="requirementsCollapse" class="accordion-collapse collapse show" aria-labelledby="requirements" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <p class="card-text"><?php echo $program['requirements']; ?></p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h6 class="card-title">Requirements</h6>
+        <p class="card-text"><?php echo $program['requirements']; ?></p>
       </div>
     </div>
   </div>
 </div>
+
 
 
 

@@ -14,7 +14,7 @@ if (isset($_POST['department_id'])) {
     // Check if there are programs for the selected department
     if (empty($programs)) {
         echo "<div class='col-12 text-center py-5'>
-                <h5 class='text-muted'>No available programs for this department.</h5>
+                <p class='text-muted'>No available programs for this department.</p>
               </div>";
     } else {
         foreach ($programs as $program) {

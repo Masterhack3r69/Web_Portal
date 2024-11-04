@@ -1,5 +1,5 @@
 <?php
-$title = "News & Updates Management";
+$title = "News & Updates";
 include '../includes/header.php';
 
 // Fetch all news records
@@ -22,57 +22,61 @@ $newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_na
                 </h5>
             </div>
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table align-items-center table-flush text-center">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Title</th>
-                            <th>Small Description</th>
-                            <th>Department</th>
-                            <th>Program</th>
-                            <th>Created By</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($newsRecords as $news): ?>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush text-center">
+                        <thead class="thead-light">
                             <tr>
-                                <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['title']; ?></td>
-                                <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['small_description']; ?></td>
-                                <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['department_name']; ?></td>
-                                <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['program_title']; ?></td>
-                                <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['created_by']; ?></td>
-                                <td class="py-0" style="font-size: 0.875rem;">
-                                    <?php if ($news['status'] == 'approved'): ?>
-                                        <span class="badge rounded-pill bg-gradient-success">Approved</span>
-                                    <?php elseif ($news['status'] == 'rejected'): ?>
-                                        <span class="badge rounded-pill bg-gradient-secondary">Rejected</span>
-                                    <?php elseif ($news['status'] == 'pending'): ?>
-                                        <span class="badge rounded-pill bg-gradient-warning">Pending</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="py-0">
-                                    <a onclick="openViewNewsModal(<?php echo $news['id']; ?>)" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View News">
-                                        <i class="fa fa-eye text-info fa-lg " aria-hidden="true"></i>
-                                    </a>
-                                    <a onclick="openUpdateStatusModal(<?php echo $news['id']; ?>, '<?php echo $news['status']; ?>')" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Update Status">
-                                        <i class="fa fa-refresh text-primary fa-lg" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="edit_enquires.php?id=<?php echo $news['id']; ?>" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit News">
-                                        <i class="fa fa-pencil text-warning fa-lg" aria-hidden="true"></i>
-                                    </a>
-                                    <a onclick="confirmDeleteNews(<?php echo $news['id']; ?>)" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete News">
-                                      <i class="fa fa-trash text-danger fa-lg " aria-hidden="true"></i>
-                                    </a>
-                                    
-                                </td>
+                                <th>Title</th>
+                                <th>Small Description</th>
+                                <th>Department</th>
+                                <th>Program</th>
+                                <th>Created By</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
-                            
-                        <?php endforeach; ?>
-                    </tbody>
-                  </table>
-              </div>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($newsRecords)): ?>
+                                <?php foreach ($newsRecords as $news): ?>
+                                    <tr>
+                                        <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['title']; ?></td>
+                                        <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['small_description']; ?></td>
+                                        <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['department_name']; ?></td>
+                                        <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['program_title']; ?></td>
+                                        <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['created_by']; ?></td>
+                                        <td class="py-0" style="font-size: 0.875rem;">
+                                            <?php if ($news['status'] == 'approved'): ?>
+                                                <span class="badge rounded-pill bg-gradient-success">Approved</span>
+                                            <?php elseif ($news['status'] == 'rejected'): ?>
+                                                <span class="badge rounded-pill bg-gradient-secondary">Rejected</span>
+                                            <?php elseif ($news['status'] == 'pending'): ?>
+                                                <span class="badge rounded-pill bg-gradient-warning">Pending</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="py-0">
+                                            <a onclick="openViewNewsModal(<?php echo $news['id']; ?>)" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View News">
+                                                <i class="fa fa-eye text-info fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                            <a onclick="openUpdateStatusModal(<?php echo $news['id']; ?>, '<?php echo $news['status']; ?>')" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Update Status">
+                                                <i class="fa fa-refresh text-primary fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="edit_enquires.php?id=<?php echo $news['id']; ?>" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit News">
+                                                <i class="fa fa-pencil text-warning fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                            <a onclick="confirmDeleteNews(<?php echo $news['id']; ?>)" class="btn btn-link px-1 py-2 m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete News">
+                                                <i class="fa fa-trash text-danger fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7" class="py-3 " style="font-size: 0.875rem;">No news and updates available.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

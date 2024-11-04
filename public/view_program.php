@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
         <div class="col-md-12">
             <div class="card pb-4 mb-4">
                 <div class="card-img-top position-relative">
-                    <img src="../assets/img/uploads/<?php echo htmlspecialchars($program['banner_image']); ?>" class="w-100 card-img-top" alt="Banner">
+                    <img src="../assets/img/uploads/<?php echo htmlspecialchars($program['banner_image']); ?>" class="w-100 card-img-top" alt="Banner" style="height: 400px; object-fit: cover;">
                     <div class="card-img-overlay d-flex flex-column justify-content-end align-items-center text-center">
                         <a href="application_form.php?id=<?php echo htmlspecialchars($form['id']); ?>" class="btn link-btn px-4">Apply Now</a>
                     </div>
@@ -79,10 +79,9 @@ if (isset($_GET['id'])) {
                             </a>
                         </div>
                     </div>
-                    <div>
-                        <a href="#" class="btn link-btn float-end">More Programs</a>
-                        <a href="#" class="btn link-btn float-end me-2">Visit Department</a>
-                        <a href="application_form.php?id=<?php echo htmlspecialchars($form['id']); ?>" class="btn link-btn float-end me-2">Apply Now</a>
+                    <div class="d-flex flex-wrap justify-content-end w-100">
+                        <a href="#" class="btn link-btn responsive-btn me-2 mb-2 btn-sm px-2">More Programs</a>
+                        <a href="#" class="btn link-btn me-2 mb-2 btn-sm px-2">Department</a>
                     </div>
                 </div>
             </div>

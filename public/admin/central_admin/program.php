@@ -22,35 +22,41 @@ $programs = query($sql)->fetch_all(MYSQLI_ASSOC);
             </div>
             <div class="card-body">
                 <div class="row" id="program-container">
-                    <?php foreach ($programs as $program): ?>
-                    <div class="col-md-6 mb-3">
-                        <div class="card mb-3 border h-100">
-                            <div class="card-img-container" style="position: relative; height: 150px; border-radius: 15px 15px 0 0;">
-                                <img src="<?php echo htmlspecialchars('../../../assets/img/uploads/' . $program['banner_image']); ?>" 
-                                     alt="Banner" 
-                                     style="height: 100%; width: 100%; object-fit: cover; border-radius: 15px 15px 0 0;">
-                                <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                                    <div class="bg-blur p-2 rounded" style="background-color: rgba(0,0,0, 0.2);">
-                                        <h5 class="text-center text-white m-0"><?php echo $program['title']; ?></h5>
+                    <?php if (!empty($programs)): ?>
+                        <?php foreach ($programs as $program): ?>
+                        <div class="col-md-6 mb-3">
+                            <div class="card mb-3 border h-100">
+                                <div class="card-img-container" style="position: relative; height: 150px; border-radius: 15px 15px 0 0;">
+                                    <img src="<?php echo htmlspecialchars('../../../assets/img/uploads/' . $program['banner_image']); ?>" 
+                                         alt="Banner" 
+                                         style="height: 100%; width: 100%; object-fit: cover; border-radius: 15px 15px 0 0;">
+                                    <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                                        <div class="bg-blur p-2 rounded" style="background-color: rgba(0,0,0, 0.2);">
+                                            <h5 class="text-center text-white m-0"><?php echo $program['title']; ?></h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body py-0">
-                                <div class="program-card">
-                                    <div class="multi-line-text-truncate mt-0" style="height: 100px;">
-                                        <p class="text-justify" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                            <?php echo $program['description']; ?>
-                                         </p>
-                                    </div>
-                                    <hr class="horizontal dark m-0">
-                                    <div class="d-flex justify-content-end mt-3 align-middle">
-                                        <a href="view_program.php?id=<?php echo $program['id']; ?>" class="btn bg-gradient-info me-2 px-3 mb-0"><i class="fa fa-eye"></i></a>
+                                <div class="card-body py-0">
+                                    <div class="program-card">
+                                        <div class="multi-line-text-truncate mt-0" style="height: 100px;">
+                                            <p class="text-justify" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <?php echo $program['description']; ?>
+                                             </p>
+                                        </div>
+                                        <hr class="horizontal dark m-0">
+                                        <div class="d-flex justify-content-end mt-3 align-middle">
+                                            <a href="view_program.php?id=<?php echo $program['id']; ?>" class="btn bg-gradient-info me-2 px-3 mb-0"><i class="fa fa-eye"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12">
+                            <p class="text-center text-muted py-5">No programs available.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

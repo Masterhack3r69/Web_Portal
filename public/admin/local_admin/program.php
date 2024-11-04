@@ -21,11 +21,10 @@ $programs = query($sql, [$department_id]);
                         <div class="card mb-3 border h-100">
                             <!-- image or random bg-color -->
                             <div class="card-img-container" style="position: relative; height: 150px; border-radius: 15px 15px 0 0;">
-                                <img id="program-img" src="<?php echo htmlspecialchars('../../../assets/img/uploads/' . $program['banner_image']); ?>" 
+                                <img id="program-img" src="<?php echo htmlspecialchars( $program['banner_image']); ?>" 
                                 alt="Banner" 
                                 style="height: 100%; width: 100%; object-fit: cover; border-radius: 15px 15px 0 0;">
                                 <div class="card-img-overlay d-flex align-items-center justify-content-center">
-
                                     <div class="bg-blur p-2 rounded" style="background-color: rgba(0,0,0, 0.2);">
                                         <h5 class="text-center text-white m-0"><?php echo htmlspecialchars($program['title']); ?></h5>
                                     </div>

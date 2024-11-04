@@ -13,7 +13,7 @@
       <div class="collapse navbar-collapse mt-sm-0 mt-2" id="navbar">
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="mx-auto">
-            <h5 class="mb-0 text-truncate d-none d-lg-inline">
+            <h6 class="mb-0 text-truncate d-none d-lg-inline">
               <?php 
                 if ($_SESSION['admin_type'] === 'local') {
                   $department_name = query("SELECT department_name FROM departments WHERE id = ?", [$_SESSION['department_id']])->fetch_assoc()['department_name'];
@@ -22,7 +22,7 @@
                   echo "Unified Web Portal"; 
                 }
               ?>
-            </h5>
+            </h6>
           </div>
           <ul class="navbar-nav justify-content-end flex-row flex-wrap ms-auto">
             <li class="nav-item dropdown position-relative d-flex align-items-center">

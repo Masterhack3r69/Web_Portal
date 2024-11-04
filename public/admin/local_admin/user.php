@@ -1,5 +1,5 @@
   <?php
-  $title = 'User Submissions by Program';
+  $title = 'User Submissions';
   include '../includes/header.php';
 
   // Fetch all programs for the dropdown

@@ -55,22 +55,29 @@
             <div class="card-body pb-0">  
               <div class="row">
               <?php
-                foreach ($programs as $program) :
-                ?>
-                <div class="col-md-6 col-sm-12 mb-2">
-                  <div class="card card-box h-100">
-                    <img src="../assets/img/uploads/<?php echo $program['banner_image']; ?>" class="card-img-top" style="height: 150px;" alt="Banner">
-                  <div class="card-body pb-2 pt-1">
-                    <div class="card-title p-1 m-0 text-dark fw-bold text-center" ><?php echo $program['title']; ?></div>
-                    <hr class="horizontal dark m-0">
+                if (count($programs) > 0):
+                  foreach ($programs as $program) :
+                  ?>
+                  <div class="col-md-6 col-sm-12 mb-2">
+                    <div class="card card-box h-100">
+                      <img src="../assets/img/uploads/<?php echo $program['banner_image']; ?>" class="card-img-top" style="height: 150px; object-fit: cover" alt="Banner">
+                    <div class="card-body pb-2 pt-1">
+                      <div class="card-title p-1 m-0 text-dark fw-bold text-center" ><?php echo $program['title']; ?></div>
+                      <hr class="horizontal dark m-0">
                       <div class="multi-line-text-truncate-4" >
                         <?php echo $program['description']; ?>
                         </div>
                       </div>
                       <a href="view_program.php?id=<?php echo $program['id']; ?>" class="btn ms-3 py-2" style="width: fit-content;">View</a>
+                    </div>
                   </div>
-                </div>
-                <?php endforeach; ?> 
+                  <?php endforeach; 
+                else:
+                  ?>
+                  <div class="col-md-12 text-center">
+                    <p>No available programs.</p>
+                  </div>
+                <?php endif; ?> 
               </div>
             </div> 
             <div class="text-center m-0">
@@ -86,25 +93,31 @@
                   </h5>
               </div>
               <div class="card-body pb-0">
-                <?php foreach ($latestNews as $news): ?>
-                  <div class="card shadow-sm border mb-2 rounded-2" style="height: 180px;">
-                      <div class="card-body p-2">
-                          <div class=" text-center"> 
-                              <p class="text-sm fw-bold mb-0"><?php echo htmlspecialchars($news['title']); ?></p>
-                          </div>
-                          <hr class="horizontal dark m-0">
-                          <div class="multi-line-text-truncate-3 mt-1 mx-1">
-                              <p class="small">
-                                  <?php echo htmlspecialchars($news['small_description']); ?>
-                              </p>
-                          </div>
-                      </div>
-                      <div class="d-flex justify-content-between text-sm p-3">
-                          <a href="news_update.php?id=<?php echo $news['id']; ?>" class="stretched-link text-danger">Read More</a>
-                          <span class="fw-light text-muted"><?php echo date('m/d/Y', strtotime($news['created_at'])); ?></span> 
-                      </div>
+                <?php if (!empty($latestNews)): ?>
+                  <?php foreach ($latestNews as $news): ?>
+                    <div class="card shadow-sm border mb-2 rounded-2" style="height: 180px;">
+                        <div class="card-body p-2">
+                            <div class=" text-center"> 
+                                <p class="text-sm fw-bold mb-0"><?php echo htmlspecialchars($news['title']); ?></p>
+                            </div>
+                            <hr class="horizontal dark m-0">
+                            <div class="multi-line-text-truncate-3 mt-1 mx-1">
+                                <p class="small">
+                                    <?php echo htmlspecialchars($news['small_description']); ?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between text-sm p-3">
+                            <a href="news_update.php?id=<?php echo $news['id']; ?>" class="stretched-link text-danger">Read More</a>
+                            <span class="fw-light text-muted"><?php echo date('m/d/Y', strtotime($news['created_at'])); ?></span> 
+                        </div>
+                    </div>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <div class="d-flex justify-content-center">
+                    <p class="text-center">No latest news available.</p>
                   </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
               </div>
               <div class="text-center m-0">
                 <a class="btn link-btn p-2 px-3" type="button">See More</a>
@@ -178,7 +191,7 @@
 </div>
 
 <div id="contact" class="container-fluid py-5" style="background-image: url('../assets/img/website_img/IMG_20241102_171716_284.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-  <div class="row d-flex  justify-content-center text-center">
+  <div class="row d-flex  justify-content-center align-items-center text-center">
     <div class="col-md-6 py-4 rounded-3 mb-3" style=" background-color: rgba(0,0,0,0.4);"> 
       <div class="text-white mb-5">
         <h3 class="text-white mb-5">Contact Information</h3>
@@ -206,7 +219,7 @@
       </div>
     </div>
     <div class="col-md-6">
-        <div class="card">
+        <div class="card h-100">
             <div class="card-header text-center">
                 <h3>Send Us Your Feedback</h3>
             </div>

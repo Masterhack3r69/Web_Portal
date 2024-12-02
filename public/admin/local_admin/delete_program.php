@@ -26,14 +26,18 @@ if (isset($_GET['id'])) {
             if ($result) {
                 $response['success'] = true;
                 $response['message'] = "Program deleted successfully!";
+                audit_log('program', 'Delete', 'Program has been deleted');
             } else {
                 $response['message'] = "Error: Unable to delete the program.";
+                audit_log('program', 'Delete Failed', 'Failed to delete program');
             }
         } catch (Exception $e) {
             $response['message'] = "Error: " . $e->getMessage();
+            audit_log('program', 'Delete Error', 'Error deleting program');
         }
     } else {
         $response['message'] = "Program not found.";
+        audit_log('program', 'Delete Not Found', 'Program not found');
     }
 } else {
     $response['message'] = "Invalid request.";

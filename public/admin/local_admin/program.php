@@ -21,7 +21,7 @@ $programs = query($sql, [$department_id]);
                         <div class="card mb-3 border h-100">
                             <!-- image or random bg-color -->
                             <div class="card-img-container" style="position: relative; height: 150px; border-radius: 15px 15px 0 0;">
-                                <img id="program-img" src="<?php echo htmlspecialchars( $program['banner_image']); ?>" 
+                                <img id="program-img" src="<?php echo '../../../assets/img/uploads/' . htmlspecialchars( $program['banner_image']); ?>" 
                                 alt="Banner" 
                                 style="height: 100%; width: 100%; object-fit: cover; border-radius: 15px 15px 0 0;">
                                 <div class="card-img-overlay d-flex align-items-center justify-content-center">
@@ -39,11 +39,8 @@ $programs = query($sql, [$department_id]);
                                     </div>
                                 <hr class="horizontal dark m-0">
                                 <div class="d-flex justify-content-end mt-3 align-middle">
-
                                     <a href="view_program.php?id=<?php echo $program['id']; ?>" class="btn bg-gradient-info me-2 px-3 mb-0"><i class="fa fa-eye"></i></a>
-
                                     <a href="edit_program.php?id=<?php echo $program['id']; ?>" class="btn bg-gradient-warning me-2 px-3 mb-0"><i class="fa fa-edit"></i></a>
-                                    
                                     <a href="#" 
                                     class="btn bg-gradient-danger px-3 mb-0"
                                     data-bs-toggle="tooltip" 

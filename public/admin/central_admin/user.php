@@ -25,31 +25,27 @@ $result = query($sql);
                 <th>Username</th>
                 <th>Email</th>
                 <th>Created At</th>
-                <th>Action</th>
               </tr>
             </thead>
+            <tbody id="userTableBody">
             <tbody id="userTableBody">
               <?php
               if (mysqli_num_rows($result) > 0) {
                   while($row = mysqli_fetch_assoc($result)) {
-                      echo "<tr>";
-                      echo "<td>" . htmlspecialchars($row['first_name']) . "</td>";
-                      echo "<td>" . htmlspecialchars($row['last_name']) . "</td>";
-                      echo "<td>" . htmlspecialchars($row['username']) . "</td>";
-                      echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                      echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
-                      echo '<td>
-                              <a href="#" class="text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                <i class="fas fa-pencil-alt fa-lg"></i>
-                              </a>
-                              <a href="#" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                <i class="fas fa-trash-alt fa-lg"></i>
-                              </a>
-                            </td>';
-                      echo "</tr>";
+              ?>
+                      <tr>
+                        <td><?= $row['first_name'] ?></td>
+                        <td><?= $row['last_name'] ?></td>
+                        <td><?= $row['username'] ?></td>
+                        <td><?= $row['email'] ?></td>
+                        <td><?= $row['created_at'] ?></td>
+                      </tr>
+              <?php
                   }
               } else {
-                  echo "<tr><td colspan='6'>No users found</td></tr>";
+              ?>
+                      <tr><td colspan='6'>No users found</td></tr>
+              <?php
               }
               ?>
             </tbody>

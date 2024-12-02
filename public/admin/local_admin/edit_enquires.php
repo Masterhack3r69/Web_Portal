@@ -1,17 +1,15 @@
 <?php
-ob_start(); // Start output buffering
-$title = "Edit News & Updates";
+ob_start(); 
+$title = "News & Updates";
 include '../includes/header.php';
 
 if (isset($_SESSION['user_id'])) {
     $created_by = $_SESSION['user_id'];
 }
 
-// Fetch the department ID for the logged-in admin
 $admin_info = query("SELECT department_id FROM admin WHERE id = ?", [$created_by])->fetch_assoc();
 $department_id = $admin_info['department_id'] ?? null;
 
-// Get news ID from URL
 if (isset($_GET['id'])) {
     $news_id = $_GET['id'];
     $news = query("SELECT * FROM news WHERE id = ?", [$news_id])->fetch_assoc();
@@ -41,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $params[] = $_POST['program_id'];
     }
 
-    // If an image file is uploaded, handle it
     $image_url = $news['image_url'];
     if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == UPLOAD_ERR_OK) {
         $logoDir = '../../../assets/img/uploads/';
@@ -49,13 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $imageFilePath = $logoDir . $uniqueImageName;
 
         if (move_uploaded_file($_FILES['image_url']['tmp_name'], $imageFilePath)) {
-            $image_url = $uniqueImageName; // Update the image URL if uploaded successfully
+            $image_url = $uniqueImageName; 
         } else {
             $_SESSION['error_message'] = "Error uploading the image file.";
         }
     }
 
-    // Add image URL to params if it was updated
     if ($image_url != $news['image_url']) {
         $updateFields[] = "image_url = ?";
         $params[] = $image_url;
@@ -69,13 +65,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $result = query($sql, $params);
             if ($result) {
                 $_SESSION['success_message'] = "News updated successfully!";
-                header('Location: enquires.php');
+                audit_log('news', 'Update', 'News updated successfully');
+                header('Location:  enquires.php');
                 exit; 
             } else {
                 $_SESSION['warning_message'] = "The news could not be updated.";
+                audit_log('news', 'Update Failed', 'Failed to update news ');
             }
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Error: " . $e->getMessage();
+            audit_log('news', 'Update Error', 'Error updating news');
         }
     }
 }
@@ -88,8 +87,7 @@ $programs = query("SELECT id, title FROM programs WHERE department_id = ?", [$de
     <div class="col-md-12">
         <div class="card">
             <div class="card-header pb-0">
-                <h5>Edit News and Updates</h5>
-                <a href="enquires.php" class="btn bg-gradient-light float-end">Back</a>
+                <h5>Edit News and Updates <a href="enquires.php" class="btn bg-gradient-light float-end">Back</a></h5>
             </div>
             <div class="card-body">
                 <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
@@ -103,7 +101,8 @@ $programs = query("SELECT id, title FROM programs WHERE department_id = ?", [$de
                     </div>
                     <div class="col-12">
                         <label for="content" class="form-label">Content:</label>
-                        <textarea name="content" class="form-control summernote" id="content" rows="3" required><?php echo htmlspecialchars($news['content']); ?></textarea>
+                        <input type="hidden" name="content" id="content">
+                        <div id="editor-content" style="height: 200px;"><?php echo $news['content']; ?></div>
                     </div>
                     <div class="col-md-6">
                         <label for="image_url" class="form-label">Image URL:</label>

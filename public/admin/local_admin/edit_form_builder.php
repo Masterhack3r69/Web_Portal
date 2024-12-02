@@ -14,7 +14,7 @@ if ($form_id > 0) {
         $form_name = $form_data['form_name'];
         $form_html = $form_data['form_html'];
     } else {
-        showAlert("Form not found.", "danger");
+        $_SESSION['warning_message'] = "Form not found";
     }
 }
 ?>
@@ -61,8 +61,8 @@ if ($form_id > 0) {
         </div>
     </div>
 
-    <div class="col-12 col-md-4 mb-3">
-        <div class="card">
+   <div class="col-md-4">
+        <div class="card"  >
             <div class="card-header text-center pb-0">
                 <h5>Form Fields</h5>
                 <hr class="horizontal dark m-0">
@@ -74,6 +74,7 @@ if ($form_id > 0) {
                 <div class="mb-3">
                     <select id="field-type" class="form-select" onchange="toggleOptionsInput()">
                         <option value="">Select Field Type</option>
+                        <option value="header">Text View</option>
                         <option value="text">Text Input</option>
                         <option value="textarea">Textarea</option>
                         <option value="email">Email</option>
@@ -86,23 +87,28 @@ if ($form_id > 0) {
                         
                     </select>
                 </div>
+                <div class="mb-3" id="textview-input-container" style="display: none;">
+                    <label for="field-textview-content">Enter text:</label>
+                    <textarea id="field-textview-content" class="form-control" placeholder="Enter the text to display"></textarea>
+                </div>
+
                 <div class="mb-3" id="options-input-container" style="display: none;">
                     <input type="text" id="field-options" class="form-control" placeholder="Enter options, separated by commas">
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="field-required">
                             <label class="form-check-label" for="field-required">Required</label>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="mb-3 form-check" id="inline-option-container" style="display: none;">
                             <input type="checkbox" class="form-check-input" id="field-inline">
                             <label class="form-check-label" for="field-inline">Inline</label>
                         </div>
                     </div>
-                </div>
+                </div>         
                 <div class="mb-3 d-grid">
                     <button class="btn btn-light mb-3 shadow-none" style="border: 3px gray dashed;" onclick="addField()">Add Field</button>
                     <div class="col-md-12 d-flex justify-content-center">

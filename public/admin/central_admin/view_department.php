@@ -10,7 +10,6 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-    // Fetch the department details
     $sql = "SELECT d.*, a.username AS local_admin 
         FROM departments d 
         LEFT JOIN admin a ON d.local_admin_id = a.id 
@@ -22,7 +21,6 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-    // Fetch programs for this department
     $programs_sql = "SELECT * FROM programs WHERE department_id = ?";
     $programs = query($programs_sql, [$department_id])->fetch_all(MYSQLI_ASSOC);
 }
@@ -52,24 +50,11 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="col-md-4">
                             <div class="p-2 text-center">
-                                <strong>Local Admin</strong>
-                                <?php if ($department['local_admin']) : ?>
-                                    <p class="badge d-block bg-gradient-info text-white">
-                                        <a href="view_local_admin.php?id=<?php echo $department['local_admin_id']; ?>" class="text-white">
-                                            <?php echo htmlspecialchars($department['local_admin']); ?>
-                                        </a>
-                                    </p>
-                                <?php else : ?>
-                                    <p class="badge d-block bg-gradient-secondary text-white">N/A</p>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="p-2 text-center">
                                 <strong>Status</strong>
                                 <p class="badge d-block <?php echo ($department['status'] === 'Active') ? 'bg-gradient-success' : 'bg-gradient-secondary'; ?> text-white"><?php echo htmlspecialchars($department['status'] ?? 'Unknown'); ?></p>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

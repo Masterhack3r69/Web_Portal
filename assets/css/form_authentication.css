@@ -1,5 +1,9 @@
+* {
+    font-family: "Montserrat", serif;
+}
+
 body {
-  background-image: url(../../assets/img/oooscillate.svg);
+  background-image: url(../../assets/img/flat-mountains.svg);
   background-size: cover; 
   background-position: center;
   background-repeat: no-repeat; 
@@ -11,9 +15,10 @@ body {
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 15px 15px; 
 }
 
 .form {
@@ -25,7 +30,7 @@ body {
   padding: 20px;
   border-radius: 20px;
   position: relative;
-  width: 450px;
+  width: 100%;
   border: #F1464B 1px solid;
 }
 
@@ -36,7 +41,6 @@ body {
   letter-spacing: -1px;
   position: relative;
   align-self: center;
-
 }
 
 .message, .signin {
@@ -60,7 +64,6 @@ body {
   display: flex;
   width: 100%;
   gap: 6px;
-  
 }
 
 .form label {
@@ -94,7 +97,7 @@ body {
   font-size: 0.9em;
 }
 
-.form label .input:focus + span,.form label .input:valid + span {
+.form label .input:focus + span, .form label .input:valid + span {
   top: 33px;
   font-size: 0.7em;
   font-weight: 600;
@@ -103,6 +106,7 @@ body {
 .dateInput[type=date]:required:invalid::-webkit-datetime-edit {
   color: transparent;
 }
+
 input[type=date]:focus::-webkit-datetime-edit {
   color: black !important;
 }
@@ -114,6 +118,7 @@ input[type=date]:focus::-webkit-datetime-edit {
 .input:hover {
   color: #F1464B;
 }
+
 .error {
   color: #F1464B;
   display: none;
@@ -166,4 +171,68 @@ input[type=date]:focus::-webkit-datetime-edit {
 .custom-alert button.btn-close {
   position: relative;
   top: -2px;
+}
+
+/* Media Queries for responsiveness */
+
+@media (max-width: 768px) {
+  .form {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .form label .input {
+    padding: 8px 8px 15px 8px;
+  }
+  .signin {
+    font-size: 12px;
+  }
+  .submit {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .container {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+  .form {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+  }
+  .form label .input {
+    padding: 8px 8px 15px 8px;
+  }
+  .signin {
+    font-size: 11px;
+  }
+  .submit {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .container {
+    padding: 0 5px;
+  }
+}
+
+.alert-container {
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 100%;
+  max-width: 430px;
+  font-size: 14px;
+}
+.container {
+  position: relative;
 }

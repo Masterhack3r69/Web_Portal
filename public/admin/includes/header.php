@@ -37,7 +37,7 @@ if (isset($_GET['msg']) && isset($_GET['type'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="icon" type="image/png" href="../../../assets/img/icon.png">
   <title>
     <?php if(isset($title)) { echo $title; }else { echo "Dashboard"; } ?>
   </title>
@@ -49,9 +49,11 @@ if (isset($_GET['msg']) && isset($_GET['type'])) {
 <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
 <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
 <link id="pagestyle" href="../../../assets/css/main-bootstrap.css?v=1.0.7" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+
 
 <!-- JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

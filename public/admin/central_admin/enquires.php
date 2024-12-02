@@ -3,21 +3,25 @@ $title = "News & Updates";
 include '../includes/header.php';
 
 // Fetch all news records
-$newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_name, p.title AS program_title, a.username AS created_by, n.status
-  FROM news n
-  JOIN departments d ON n.department_id = d.id
-  JOIN programs p ON n.program_id = p.id
-  JOIN admin a ON n.created_by = a.id
-  ORDER BY n.created_at DESC")->fetch_all(MYSQLI_ASSOC);
+$newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_name, 
+    p.title AS program_title, a.username AS created_by, n.status
+    FROM news n
+    LEFT JOIN departments d ON n.department_id = d.id
+    LEFT JOIN programs p ON n.program_id = p.id
+    JOIN admin a ON n.created_by = a.id
+    ORDER BY n.created_at DESC")->fetch_all(MYSQLI_ASSOC);
 ?>
+
 
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header pb-0">
-                <h5>News and Updates
-                    <a href="create_enquires.php" class="btn bg-gradient-primary float-end">
-                        <i class="fa fa-plus me-2" aria-hidden="true"></i>Add News
+                <h5>
+                    News and Updates
+                    <a href="create_enquires.php" class="btn bg-gradient-primary float-end d-none d-lg-inline">Add News</a>
+                    <a href="create_enquires.php" class="btn bg-gradient-primary float-end d-inline d-lg-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add News and Updates">
+                        <i class="fa fa-plus"></i>
                     </a>
                 </h5>
             </div>
@@ -27,7 +31,6 @@ $newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_na
                         <thead class="thead-light">
                             <tr>
                                 <th>Title</th>
-                                <th>Small Description</th>
                                 <th>Department</th>
                                 <th>Program</th>
                                 <th>Created By</th>
@@ -40,7 +43,6 @@ $newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_na
                                 <?php foreach ($newsRecords as $news): ?>
                                     <tr>
                                         <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['title']; ?></td>
-                                        <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['small_description']; ?></td>
                                         <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['department_name']; ?></td>
                                         <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['program_title']; ?></td>
                                         <td class="py-0" style="font-size: 0.875rem;"><?php echo $news['created_by']; ?></td>
@@ -134,6 +136,7 @@ $newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_na
     </div>
 </div>
 <?php include '../includes/footer.php'; ?>
+
 <script>
     function confirmDeleteNews(newsId) {
         swal({
@@ -170,23 +173,33 @@ $newsRecords = query("SELECT n.id, n.title, n.small_description, d.department_na
             }
         });
     }
-
     
-    
-</script>
-<script>
-function openViewNewsModal(newsId) {
+    function openViewNewsModal(newsId) {
     fetch(`fetch_news.php?id=${newsId}`)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            const imagePath = data.news.image_url ? `../../../assets/img/uploads/${data.news.image_url}` : 'path/to/default/image.png'; // Use a 
+            // Set image path with fallback if image URL is missing
+            const imagePath = data.news.image_url 
+                ? `../../../assets/img/uploads/${data.news.image_url}` 
+                : 'path/to/default/image.png'; // Default image
             
+            // Set the image source
             document.getElementById('newsImage').src = imagePath; 
+            
+            // Set the title, description, and department with fallback
             document.getElementById('newsTitle').innerText = data.news.title;
             document.getElementById('newsDescription').innerText = data.news.small_description;
-            document.getElementById('newsDepartment').innerText = data.news.department_name;
-            document.getElementById('newsProgram').innerText = data.news.program_title;
+
+            // Check for department name and set fallback if NULL or empty
+            const departmentName = data.news.department_name ? data.news.department_name : "No department associated";
+            document.getElementById('newsDepartment').innerText = departmentName;
+
+            // Check for program title and set fallback if NULL or empty
+            const programTitle = data.news.program_title ? data.news.program_title : "No program associated";
+            document.getElementById('newsProgram').innerText = programTitle;
+
+            // Set other information
             document.getElementById('newsCreatedBy').innerText = data.news.created_by;
             document.getElementById('newsStatusText').innerText = data.news.status; 
 
@@ -194,17 +207,21 @@ function openViewNewsModal(newsId) {
             const modal = new bootstrap.Modal(document.getElementById('viewNewsModal'));
             modal.show();
         } else {
+            // Handle failure response
             swal(data.message, {
                 icon: "error",
             });
         }
     })
     .catch(error => {
+        // Handle fetch error
         swal("An error occurred while fetching news data.", {
             icon: "error",
         });
     });
 }
+
+
 
 function openUpdateStatusModal(newsId, currentStatus) {
 document.getElementById('newsId').value = newsId;
@@ -255,8 +272,6 @@ document.getElementById('updateStatusButton').onclick = function() {
     });
 };
 
-
-    </script>
-
+</script>
 
 

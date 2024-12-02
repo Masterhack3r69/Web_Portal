@@ -1,3 +1,43 @@
+// fade-in section
+const fadeInSection = document.querySelector('.fade-in-section');
+
+const sectionOptions = {
+  root: null,  
+  rootMargin: '0px',
+  threshold: 0.1 
+};
+
+const sectionObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      observer.unobserve(entry.target); 
+    }
+  });
+}, sectionOptions);
+sectionObserver.observe(fadeInSection);
+
+
+const fadeInElements = document.querySelectorAll('.fade-in-bottom');
+
+const elementObserverOptions = {
+  root: null,  
+  rootMargin: '0px',
+  threshold: 0.2  
+};
+
+const elementObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      observer.unobserve(entry.target);  
+    }
+  });
+}, elementObserverOptions);
+
+fadeInElements.forEach(element => elementObserver.observe(element));
+
+
 document.getElementById("messageForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -6,7 +46,6 @@ document.getElementById("messageForm").addEventListener("submit", function (e) {
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  // Validate email
   if (!emailPattern.test(emailInput.value)) {
       emailError.style.display = 'block'; 
       return; 
@@ -40,9 +79,11 @@ document.getElementById("messageForm").addEventListener("submit", function (e) {
       });
 });
 
+
+
 function toggleMenu() {
   const menu = document.getElementById('responsiveMenu');
-  menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+  menu.classList.toggle('show'); 
 }
 
 window.addEventListener('scroll', function() {
@@ -63,7 +104,7 @@ let currentIndex = 0;
 const totalLogos = logoContainers.length;
 
 function getLogoWidth() {
-  return document.querySelector('.logo-img').offsetWidth + 10; // Adjust based on logo width + margin
+  return document.querySelector('.logo-img').offsetWidth + 10; 
 }
 
 // Function to move to the next logo
@@ -74,7 +115,6 @@ function moveToNext() {
   }
 }
 
-// Function to move to the previous logo
 function moveToPrev() {
   if (currentIndex > 0) {
       currentIndex--;
@@ -82,13 +122,12 @@ function moveToPrev() {
   }
 }
 
-// Update the position of the slider
+
 function updateSliderPosition() {
   const offset = -currentIndex * getLogoWidth();
   logosWrapper.style.transform = `translateX(${offset}px)`;
 }
 
-// Add event listeners for navigation
 document.addEventListener('DOMContentLoaded', () => {
   const leftArrow = document.createElement('button');
   leftArrow.className = 'arrow arrow-left';
@@ -107,44 +146,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', updateSliderPosition);
 });
 
-document.getElementById("messageForm").addEventListener("submit", function (e) {
-    e.preventDefault();
 
-    const emailInput = document.getElementById('floatingInput');
-    const emailError = document.getElementById('emailError');
-
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    // Validate email
-    if (!emailPattern.test(emailInput.value)) {
-        emailError.style.display = 'block'; 
-        return; 
-    }
-
-    emailError.style.display = 'none'; 
-
-    const formData = new FormData(this); 
-    fetch("submit_message.php", {
-        method: "POST",
-        body: formData,
-    })
-        .then((response) => response.text())
-        .then((data) => {
-            Swal.fire({
-                title: "Success!",
-                text: data,
-                icon: "success",
-                confirmButtonText: "OK",
-            });
-            document.getElementById("messageForm").reset(); 
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            Swal.fire({
-                title: "Error!",
-                text: "An error occurred. Please try again.",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
-        });
-});

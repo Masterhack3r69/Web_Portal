@@ -125,7 +125,9 @@ LIMIT 2")->fetch_all(MYSQLI_ASSOC); // Fetches at least 2 records, change the li
                         <img src="<?php echo htmlspecialchars('../../../assets/img/uploads/' . $news['image_url']); ?>" class="img-fluid mb-2" style="height: 150px; width: 250px; object-fit: cover;" alt="News Image">
                       </div>
                       <div class="col-md-9">
-                        <p class="card-text mb-2"><?php echo $news['content']; ?></p>
+                          <div class="multi-line-text-truncate" >
+                             <p class="card-text mb-2"><?php echo $news['content']; ?></p>
+                          </div>
                       </div>
                     </div>
                     <p class="card-text text-muted text-sm">From <?php echo htmlspecialchars($news['department_name']); ?> on <?php echo date('m/d/Y', strtotime($news['created_at'])); ?></p>

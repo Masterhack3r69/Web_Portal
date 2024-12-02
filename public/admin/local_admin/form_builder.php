@@ -2,17 +2,19 @@
 $title = "Form Builder";
 include '../includes/header.php'; 
 
+$department_id = $_SESSION['department_id']; 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form_id = isset($_POST['form_id']) ? intval($_POST['form_id']) : 0;
     $form_name = $_POST['form_name'];
     $form_html = $_POST['form_html'];
 
     if ($form_id > 0) {
-        $sql = "UPDATE forms SET form_name = ?, form_html = ? WHERE id = ?";
-        $result = query($sql, [$form_name, $form_html, $form_id]);
+        $sql = "UPDATE forms SET form_name = ?, form_html = ?, department_id = ? WHERE id = ?";
+        $result = query($sql, [$form_name, $form_html, $department_id, $form_id]);
     } else {
-        $sql = "INSERT INTO forms (form_name, form_html) VALUES (?, ?)";
-        $result = query($sql, [$form_name, $form_html]);
+        $sql = "INSERT INTO forms (form_name, form_html, department_id) VALUES (?, ?, ?)";
+        $result = query($sql, [$form_name, $form_html, $department_id]);
     }
 }
 
@@ -72,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="mb-3">
                     <select id="field-type" class="form-select" onchange="toggleOptionsInput()">
                         <option value="">Select Field Type</option>
+                        <option value="header">Text View</option>
                         <option value="text">Text Input</option>
                         <option value="textarea">Textarea</option>
                         <option value="email">Email</option>
@@ -84,6 +87,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         
                     </select>
                 </div>
+                <div class="mb-3" id="textview-input-container" style="display: none;">
+                    <label for="field-textview-content">Enter text:</label>
+                    <textarea id="field-textview-content" class="form-control" placeholder="Enter the text to display"></textarea>
+                </div>
+
                 <div class="mb-3" id="options-input-container" style="display: none;">
                     <input type="text" id="field-options" class="form-control" placeholder="Enter options, separated by commas">
                 </div>

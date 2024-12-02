@@ -1,18 +1,14 @@
 <?php
-$title = "Feedback Management"; // Updated title
+$title = "Feedback"; 
 include '../includes/header.php';
 
-// Update messages to 'read' where the status is 'unread'
 $query_update = "UPDATE messages SET status = 'read' WHERE status = 'unread'";
-query($query_update); // Execute the update query
+query($query_update); 
 
-// Define the SQL query to fetch feedback messages
-$query_select = "SELECT email, message, feedback_type, created_at FROM messages ORDER BY created_at DESC";
+$query_select = "SELECT email, message, feedback_type, created_at FROM messages WHERE department_id IS NULL ORDER BY created_at DESC";
 
-// Execute the select query using the custom query function
 $result = query($query_select);
 
-// Open the container for the card layout
 ?>
 
 <div class="row">
@@ -34,11 +30,14 @@ $result = query($query_select);
           </div>
       <?php endwhile; ?>
   <?php else: ?>
-      <p>No messages found.</p>
+        <div class="card">
+            <div class="card-body text-center">
+              <p>No messages found.</p>
+            </div>
+        </div>
   <?php endif; ?>
   </div>
 </div>
-    
 
 <?php include '../includes/footer.php'; ?>
 

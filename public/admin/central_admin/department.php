@@ -28,10 +28,10 @@ $departments = query($sql)->fetch_all(MYSQLI_ASSOC);
                                 <div class="card-body">
                                     <div class="row">
                                     <div class="col-md-2 text-center d-flex justify-content-center  align-items-center">
-                                        <div class="department-logo rounded-circle bg-light" style="width: 100px; height: 100px; overflow: hidden;">
+                                        <div class="department-logo rounded-circle bg-light " style="width: 100px; height: 100px; overflow: hidden;">
                                             <img src="<?php echo '../../../assets/img/uploads/' .  $department['logo']; ?>" 
                                                 alt="Logo" 
-                                                class="img-fluid rounded-circle" 
+                                                class="img-fluid rounded-circle border" 
                                                 onerror="this.onerror=null; this.src='path/to/placeholder-image.png';">
                                         </div>
                                     </div>
@@ -51,13 +51,12 @@ $departments = query($sql)->fetch_all(MYSQLI_ASSOC);
                                     <!-- Status, Local Admin, and Programs Section (visible on large screens) -->
                                     <div class="col-md-8 d-none d-lg-flex justify-content-start align-items-center">
                                         <span class="badge d-block me-2 <?php echo ($department['status'] === 'Active') ? 'bg-gradient-success' : 'bg-gradient-secondary'; ?> text-white"><?php echo $department['status']; ?></span>
-                                        <span class="badge bg-gradient-secondary me-2">Local Admin: <?php echo htmlspecialchars($department['local_admin'] ?? 'N/A'); ?></span>
-                                        <span class="badge bg-gradient-info">Programs: [Programs]</span>
+                                        <span class="badge bg-gradient-primary me-2">Local Admin: <?php echo htmlspecialchars($department['local_admin'] ?? 'N/A'); ?></span>
                                     </div>
 
                                     <!-- Buttons Section -->
                                     <div class="col-md-4 d-flex justify-content-end align-middle">
-                                        <a href="view_department.php?id=<?php echo $department['id']; ?>" class="btn bg-gradient-primary text-white px-3 py-2 me-2 my-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Department">
+                                        <a href="view_department.php?id=<?php echo $department['id']; ?>" class="btn bg-gradient-info text-white px-3 py-2 me-2 my-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Department">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <a href="edit_department.php?id=<?php echo $department['id']; ?>" class="btn bg-gradient-success text-white px-3 py-2 me-2 my-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Department">

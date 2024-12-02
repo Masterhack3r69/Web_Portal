@@ -1,62 +1,67 @@
-<?php
-$title = "Create Department";
-include '../includes/header.php'; 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $department_name = $_POST['department_name'];
-    $description = $_POST['description'];
-    $department_head = $_POST['department_head'];
-    $contact_phone = $_POST['contact_phone'];
-    $email = $_POST['contact_email'];
-    $status = isset($_POST['status']) ? $_POST['status'] : 'Inactive';
-    $logo = ''; 
-    $location = $_POST['location'];
-    $department_banner = '';
-    $local_admin_id = NULL; 
-
-
-    if (isset($_FILES['logo']) && $_FILES['logo']['error'] == UPLOAD_ERR_OK) {
-        $logoDir = '../../../assets/img/uploads/';
-        
-        $uniqueName = time() . '_' . basename($_FILES['logo']['name']);
-        $logoFile = $logoDir . $uniqueName;
-        
-        if (move_uploaded_file($_FILES['logo']['tmp_name'], $logoFile)) {
-            $logo = $uniqueName; 
-        } else {
-            $_SESSION['error_message'] = "Error uploading the image file.";
+    <?php
+    ob_start();
+    $title = "Create Department";
+    include '../includes/header.php'; 
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $department_name = $_POST['department_name'];
+        $description = $_POST['description'];
+        $department_head = $_POST['department_head'];
+        $contact_phone = $_POST['contact_phone'];
+        $email = $_POST['contact_email'];
+        $status = isset($_POST['status']) ? $_POST['status'] : 'Inactive';
+        $logo = '../../../assets/img/default_img/default_logo.png'; 
+        $location = $_POST['location'];
+        $department_banner = '../../../assets/img/default_img/default_banner.png';
+        $local_admin_id = NULL; 
+    
+        if (isset($_FILES['logo']) && $_FILES['logo']['error'] == UPLOAD_ERR_OK) {
+            $logoDir = '../../../assets/img/uploads/';
+            $logoFile = $logoDir . basename($_FILES['logo']['name']);
+            if (move_uploaded_file($_FILES['logo']['tmp_name'], $logoFile)) {
+                $logo = $logoFile; 
+                $updateFields[] = "logo = ?";
+                $params[] = $logo;
+            } else {
+                showAlert("Error uploading the logo file.", "danger");
+            }
         }
-    }
     
-    if (isset($_FILES['department_banner']) && $_FILES['department_banner']['error'] == UPLOAD_ERR_OK) {
-        $logoDir = '../../../assets/img/uploads/';
-        
-        $uniqueName = time() . '_' . basename($_FILES['department_banner']['name']);
-        $logoFile = $logoDir . $uniqueName;
-        
-        if (move_uploaded_file($_FILES['department_banner']['tmp_name'], $logoFile)) {
-            $department_banner = $uniqueName; 
+        if (isset($_FILES['department_banner']) && $_FILES['department_banner']['error'] == UPLOAD_ERR_OK) {
+        $bannerDir = '../../../assets/img/uploads/';
+        $bannerFile = $bannerDir . basename($_FILES['department_banner']['name']);
+        if (move_uploaded_file($_FILES['department_banner']['tmp_name'], $bannerFile)) {
+            $department_banner = $bannerFile; 
+            $updateFields[] = "department_banner = ?";
+            $params[] = $department_banner;
         } else {
-            $_SESSION['error_message'] = "Error uploading the image file.";
+            showAlert("Error uploading the banner image.", "danger");
+            }
         }
-    }
     
-
-    $sql = "INSERT INTO departments (department_name, description, department_head, contact_phone, email, status, logo, location, department_banner, local_admin_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    try {
-        $result = query($sql, [$department_name, $description, $department_head, $contact_phone, $email, $status, $logo, $location, $department_banner, $local_admin_id]);
-    
+        $sql = "INSERT INTO departments (department_name, description, department_head, contact_phone, email, status, logo, location, department_banner, local_admin_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try {
+            $result = query($sql, [$department_name, $description, $department_head, $contact_phone, $email, $status, $logo, $location, $department_banner, $local_admin_id]);
+        
         if ($result) {
-            
             $_SESSION['success_message'] = "Department created successfully!";
-        } else {
-            $_SESSION['warning_message'] = "The department could not be added.";
-        }
-    } catch (Exception $e) {
-        $_SESSION['error_message'] = "Error: " . $e->getMessage();
-    }
-}   
+            audit_log('info', 'Create', 'Department created successfully');
+            header('Location: department.php');
+            exit;
+            } else {
+                $_SESSION['warning_message'] = "The department could not be added.";
+                
+                audit_log('error', 'Create Failed', 'Failed to create department');
+            }
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = "Error: " . $e->getMessage();
+            
+            // Insert an audit log for the exception
+            audit_log('error', 'Create Error', 'Error creating department: ' . $e->getMessage());
+    }  
+
+}
 
 ?>
 <div class="row">
@@ -95,12 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <input type="text" name="contact_phone" class="form-control" id="contact_phone" placeholder="Contact Phone" required>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea name="description" class="form-control summernote" id="description" rows="3" required></textarea>
-                            </div>
-                        </div>  
+                        <div class="col-md-12 mt-1">
+                            <label for="description">Description</label>
+                            <input type="hidden" name="description" id="localDepartmentDescription">
+                            <div id="editor-local-department-description"  style="height: 200px;"></div>
+                        </div>
                         <div class="col-md-6 mt-1">
                             <div class="mb-3">
                                 <label for="dept_status" class="form-label">Status</label>

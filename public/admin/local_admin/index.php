@@ -5,24 +5,28 @@ $departmentId = $_SESSION['department_id'];
 $sqlPrograms = "SELECT COUNT(*) as total_programs FROM programs WHERE department_id = '$departmentId'";
 $totalPrograms = query($sqlPrograms)->fetch_assoc()['total_programs'];
 
-$sqlSubmissions = "SELECT COUNT(*) as total_submissions FROM form_submissions";
+$sqlSubmissions = "SELECT COUNT(*) as total_submissions FROM form_submissions WHERE program_id IN (SELECT id FROM programs WHERE department_id = '$departmentId')";
 $totalSubmissions = query($sqlSubmissions)->fetch_assoc()['total_submissions'];
 
-$sqlNewSubmissions = "SELECT COUNT(*) as new_submissions FROM form_submissions WHERE DATE(created_at) = CURDATE()";
+$sqlNewSubmissions = "SELECT COUNT(*) as new_submissions FROM form_submissions WHERE program_id IN (SELECT id FROM programs WHERE department_id = '$departmentId') AND DATE(created_at) = CURDATE()";
 $newSubmissions = query($sqlNewSubmissions)->fetch_assoc()['new_submissions'];
+
+$sqlApprovedSubmissions = "SELECT COUNT(*) as approved_submissions FROM form_submissions WHERE program_id IN (SELECT id FROM programs WHERE department_id = '$departmentId') AND status = 'approved'";
+$approvedSubmissions = query($sqlApprovedSubmissions)->fetch_assoc()['approved_submissions'];
 
 $sqlProgramsChart = "SELECT programs.title, COUNT(form_submissions.id) as total_applications 
                      FROM programs 
-                     LEFT JOIN form_submissions ON programs.id = form_submissions.program_id 
+                     INNER JOIN form_submissions ON programs.id = form_submissions.program_id AND programs.form_id = form_submissions.form_id
                      WHERE programs.department_id = '$departmentId' 
                      GROUP BY programs.id 
                      ORDER BY total_applications DESC 
                      LIMIT 5";
 $programsChart = query($sqlProgramsChart)->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-4 ">
     <div class="row">
       <div class="col-md-12 mb-3">
         <div class="card card-body p-2 d-flex justify-content-between">
@@ -81,14 +85,14 @@ $programsChart = query($sqlProgramsChart)->fetch_all(MYSQLI_ASSOC);
           <div class="row align-items-center">
             <div class="col-8">
               <div class="card-body">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Messages</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Approved Applications</p>
                 <h5 class="font-weight-bolder mb-0">
-                    <?php ?>0
+                    <?php echo htmlspecialchars($approvedSubmissions); ?>
                 </h5>
               </div>
             </div>
             <div class="col-4 text-center">
-              <i class="fas fa-envelope text-success fa-3x"></i>
+              <i class="fas fa-check-circle text-success fa-3x"></i>
             </div>
           </div>
         </div>
@@ -110,7 +114,7 @@ $programsChart = query($sqlProgramsChart)->fetch_all(MYSQLI_ASSOC);
               </li>
               <?php endforeach; ?>
             <?php else: ?>
-              <li class="list-group-item text-center">No data available</li>
+              <li class="list-group-item text-center">No Programs available</li>
             <?php endif; ?>
           </ul>
         </div>
@@ -164,5 +168,3 @@ fetch('program_chart.php')
   .catch(error => console.error('Error fetching data:', error));
 </script>
 <?php include '../includes/footer.php'; ?>
-
-

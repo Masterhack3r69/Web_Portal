@@ -14,9 +14,11 @@ if (isset($_GET['id'])) {
     if ($result) {
         $response['success'] = true;
         $response['message'] = "News record has been deleted successfully.";
+        audit_log('news', 'Delete', 'News record has been deleted');
     }
 } else {
     $response['message'] = "No news record specified for deletion.";
+    audit_log('news', 'Delete Failed', 'Failed to delete news record');
 }
 
 echo json_encode($response);

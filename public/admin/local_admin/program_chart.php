@@ -2,9 +2,11 @@
 
 include '../../../config/db.php';
 
+session_start();
+$department_id = $_SESSION['department_id'];
 
-$programs_sql = "SELECT title, id FROM programs";
-$programs_result = query($programs_sql);
+$programs_sql = "SELECT title, id FROM programs WHERE department_id = ?";
+$programs_result = query($programs_sql, [$department_id]);
 $programs = $programs_result->fetch_all(MYSQLI_ASSOC);
 
 $labels = [];

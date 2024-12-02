@@ -1,4 +1,5 @@
-<?php  
+<?php 
+ob_start();
 $title = "Edit Department";
 include '../includes/header.php';
 
@@ -82,11 +83,16 @@ if (isset($_GET['id'])) {
             $result = query($sql, $params);
             if ($result) {
                 $_SESSION['success_message'] = "Department updated successfully!";
+                audit_log('department', 'Update', 'Department updated successfully ');
+                header('Location: department.php');
+                exit;
             } else {
                 $_SESSION['warning_message'] = "Warning: The department could not be updated.";
+                audit_log('department', 'Update Failed', 'Failed to update department ' );
             }
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Error: " . $e->getMessage();
+            audit_log('department', 'Update Error', 'Error updating department ');
         }            
         }
     }
@@ -126,9 +132,10 @@ if (isset($_GET['id'])) {
                             <input type="text" name="contact_phone" class="form-control" id="contactPhone" value="<?php echo $department['contact_phone']; ?>" required>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-1">
                             <label for="description">Description</label>
-                            <textarea name="description" class="form-control summernote" id="description" required><?php echo $department['description']; ?></textarea>
+                            <input type="hidden" name="description" id="localDepartmentDescription" value="<?php echo $department['description']; ?>">
+                            <div id="editor-local-department-description"  style="height: 200px;"><?php echo $department['description']; ?></div>
                         </div>
 
                         <div class="col-md-6 mt-1">
@@ -144,12 +151,12 @@ if (isset($_GET['id'])) {
                             <input type="text" name="location" class="form-control" id="location" value="<?php echo $department['location']; ?>" required>
                         </div>
 
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
                             <label for="formFile">Logo</label>
                             <input class="form-control" type="file" name="logo" id="formFile" accept="image/*">
                         </div>
 
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
                             <label for="formFile">Banner</label>
                             <input class="form-control" type="file" name="department_banner" id="formFile" accept="image/*">
                         </div>

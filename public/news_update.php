@@ -47,8 +47,7 @@ LIMIT 4")->fetch_all(MYSQLI_ASSOC);
                                   
                               </div>
                               <div class="d-flex justify-content-between text-sm px-3 pb-2">
-                                <a href="view_department.php?id=<?php echo htmlspecialchars($news['department_id']); ?>#news-container" class="text-danger border border-danger px-2">View</a>
-                                <span><?php echo htmlspecialchars($news['department_name']); ?></span>
+                                <a href="view_department.php?id=<?php echo htmlspecialchars($news['department_id']); ?>#news-container" class="text-danger px-2"><span><?php echo htmlspecialchars($news['department_name']); ?></span></a>
                                 <span class="fw-light text-muted"><?php echo date('m/d/Y', strtotime($news['created_at'])); ?></span> 
                               </div>  
                           </div>

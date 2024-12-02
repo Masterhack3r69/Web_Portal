@@ -11,7 +11,7 @@ function getDepartmentCount() {
 $departmentCount = getDepartmentCount();
 
 function getProgramCount() {
-  $sql = "SELECT COUNT(*) AS count FROM programs";
+  $sql = "SELECT COUNT(*) AS count FROM programs WHERE department_id IS NOT NULL";
   $result = query($sql);
   if ($result && $row = $result->fetch_assoc()) {
     return $row['count'];

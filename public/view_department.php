@@ -1,3 +1,4 @@
+
 <?php include './includes/header.php';
 
  if (isset($_GET['id'])) {
@@ -8,7 +9,7 @@
    $programs_sql = "SELECT * FROM programs WHERE department_id = ?";
    $programs = query($programs_sql, [$department_id])->fetch_all(MYSQLI_ASSOC);
 
-   $news_sql = "SELECT * FROM news WHERE department_id = ? AND status = 'published' ORDER BY created_at DESC";
+   $news_sql = "SELECT * FROM news WHERE department_id = ? AND status = 'approved' ORDER BY created_at DESC";
     $news = query($news_sql, [$department_id])->fetch_all(MYSQLI_ASSOC);
  }
 ?>
@@ -69,7 +70,7 @@
                             </div>
                             
                         </div>
-                        <a href="view_program.php?id=<?php echo $program['id']; ?>" class="btn py-2 mx-5">Learn More</a>
+                        <a href="view_program.php?id=<?php echo $program['id']; ?>" class="btn py-2 mx-5">View More</a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -80,37 +81,5 @@
         <?php endif; ?>
     </div>
 </div>
-<div class="container-fluid bg-white" id="news-container">
-  <div class="row pb-4">
-  <div class="col-md-12">
-    <div class="title text-center p-4">
-        <h4 class="text-black">News and Updates</h4>
-    </div>
 
-    <?php if ($news): ?>
-        <?php foreach ($news as $newsItem): ?>
-            <div class="card mb-3 shadow-sm border">
-                <div class="row">
-                    <div class="col-md-4 h-100">
-                        <img src="<?php echo htmlspecialchars($newsItem['image_url']); ?>" class="img-fluid rounded-start" alt="News Image">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($newsItem['title']); ?></h5>
-                            <p><?php echo htmlspecialchars($newsItem['small_description']); ?></p>
-                            <p class="card-text float-end"><small class="text-muted">Last updated <?php echo time_ago($newsItem['created_at']); ?></small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="text-center text-muted">
-            No news updates available for this department.
-        </div>
-    <?php endif; ?>
-
-</div>
-  </div>
-</div>
 <?php include './includes/footer.php'; ?>

@@ -1,6 +1,6 @@
 <?php
 ob_start(); 
-$title = "Create News & Updates";
+$title = "News & Updates";
 include '../includes/header.php';
 
 if (isset($_SESSION['user_id'])) {
@@ -9,11 +9,9 @@ if (isset($_SESSION['user_id'])) {
     echo "<script>alert('User is not logged in.');</script>";
 }
 
-// Fetch the department ID of the logged-in user
 $admin_info = query("SELECT department_id FROM admin WHERE id = ?", [$created_by])->fetch_assoc();
 $department_id = $admin_info['department_id'] ?? null;
 
-// Fetch programs based on the department ID
 $programs = query("SELECT id, title FROM programs WHERE department_id = ?", [$department_id])->fetch_all(MYSQLI_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -36,12 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Check if the admin exists
     if (!$admin_info) {
         $_SESSION['error_message'] = "The created_by ID does not exist.";
     }
 
-    $status = 'pending'; // Assuming local admins create pending news
+    $status = 'approved'; 
 
     $sql = "INSERT INTO news (title, small_description, content, image_url, department_id, program_id, created_by, status, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
@@ -51,14 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result) {
             $_SESSION['success_message'] = "News added successfully!";
-            
+            audit_log('news', 'Create', 'News added successfully');
             header('Location: enquires.php');
             exit; 
         } else {
             $_SESSION['warning_message'] = "The news could not be added.";
+            audit_log('news', 'Create Failed', 'Failed to add news');
         }
     } catch (Exception $e) {
         $_SESSION['error_message'] = "Error: " . $e->getMessage();
+        audit_log('news', 'Create Error', 'Error adding news ', $e->getMessage());
     }
 }
 ?>
@@ -85,9 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="small_description" class="form-label">Small Description:</label>
                         <input type="text" class="form-control" id="small_description" name="small_description">
                     </div>
-                    <div class="col-12">
+                   <div class="col-12">
                         <label for="content" class="form-label">Content:</label>
-                        <textarea name="content" class="form-control summernote" id="content" rows="3" required></textarea>         
+                        <input type="hidden" name="content" id="content">
+                        <div id="editor-content" style="height: 200px;"></div>
                     </div>
                     <div class="col-md-6">
                         <label for="image_url" class="form-label">Image URL:</label>

@@ -1,4 +1,6 @@
+
 <?php  
+ob_start();
 $title = "Edit Program";
 include '../includes/header.php';
 
@@ -91,9 +93,12 @@ if (isset($_GET['id'])) {
                 $result = query($sql, $params);
                 
                 if ($result) {
-                    $_SESSION['success_message'] = "Program created successfully!";
+                    $_SESSION['success_message'] = "Program updated successfully!";
+                    header('Location: program.php');
+                    exit; 
                 } else {
                     showAlert("Warning: The program could not be updated.", "warning");
+                     audit_log('news', 'Create Failed', 'The program could not be updated');
                 }
             } catch (Exception $e) {
                 showAlert("Error: " . $e->getMessage(), "danger");
@@ -104,8 +109,9 @@ if (isset($_GET['id'])) {
     }
 }
 
-$formsSql = "SELECT id, form_name FROM forms";
-$formsResult = query($formsSql);
+$departmentId = $_SESSION['department_id'];
+$formsSql = "SELECT id, form_name FROM forms WHERE department_id = ?";
+$formsResult = query($formsSql, [$departmentId]);
 
 if ($formsResult) {
     $forms = $formsResult->fetch_all(MYSQLI_ASSOC); // Fetch all as an associative array
@@ -132,10 +138,11 @@ if ($formsResult) {
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="programDescription" class="form-label">Description</label>
-                                <textarea class="form-control summernote" id="programDescription" name="program_description" rows="3" required><?= $program['description'] ?></textarea>
-                            </div>
+                         <div class="mb-3">
+                            <label for="programDescription" class="form-label">Description</label>
+                            <input type="hidden" name="program_description" id="programDescription">
+                            <div id="editor-description" style="height: 200px;"><?= $program['description'] ?></div>
+                          </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -153,17 +160,19 @@ if ($formsResult) {
                             </div>
                         </div>  
                         <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="programGuidelines" class="form-label">Guidelines</label>
-                                <textarea class="form-control summernote" id="programGuidelines" name="program_guidelines" rows="3" required><?= $program['guidelines'] ?></textarea>
-                            </div>
+                          <div class="mb-3">
+                              <label for="programGuidelines" class="form-label">Guidelines</label>
+                              <input type="hidden" name="program_guidelines" id="programGuidelines">
+                              <div id="editor-guidelines" style="height: 200px;"><?= $program['guidelines'] ?></div>            
+                          </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="programRequirements" class="form-label">Requirements</label>
-                                <textarea class="form-control summernote" id="programRequirements" name="program_requirements" rows="3" required><?= $program['requirements'] ?></textarea>
-                            </div>
-                        </div>
+                       <div class="col-md-12">
+                          <div class="mb-3">
+                            <label for="programRequirements" class="form-label">Requirements</label>
+                            <input type="hidden" name="program_requirements" id="programRequirements">
+                            <div id="editor-requirements" style="height: 200px;"><?= $program['requirements'] ?></div>
+                          </div>
+                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="programDuration" class="form-label">Duration</label>
@@ -220,4 +229,7 @@ if ($formsResult) {
     </div>
 </div>
 
+
 <?php include '../includes/footer.php'; ?>
+
+ 

@@ -5,8 +5,7 @@ include '../../../config/db.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-ob_end_clean(); // Clear output buffer to prevent corrupt output
-
+ob_end_clean(); 
 if (isset($_GET['program_id'])) {
     $program_id = $_GET['program_id'];
     

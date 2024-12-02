@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $title = "Edit Local Admin";
 include '../includes/header.php';
 
@@ -32,11 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result) {
             $_SESSION['success_message'] = "Local admin updated successfully!";
+            audit_log('local_admin', 'Update', 'Local admin updated successfully');
+            header('Location: local_admin.php');
+            exit;
         } else {
             $_SESSION['warning_message'] = "Failed to update Local admin!";
+            audit_log('local_admin', 'Update Failed', 'Failed to update local admin');
         }
      } catch (Exception $e) {
          $_SESSION['error_message'] = "Error: " . $e->getMessage();
+         audit_log('local_admin', 'Update Error', 'Error updating local admin');
     }
 }
 ?>

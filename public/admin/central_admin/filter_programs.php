@@ -4,14 +4,12 @@ include '../../../config/db.php';
 if (isset($_POST['department_id'])) {
     $department_id = $_POST['department_id'];
 
-    // Query the programs for the selected department
     $sql = "SELECT p.id, p.title, p.description, p.banner_image, d.department_name 
             FROM programs p 
             INNER JOIN departments d ON p.department_id = d.id 
             WHERE p.department_id = ?";
     $programs = query($sql, [$department_id])->fetch_all(MYSQLI_ASSOC);
 
-    // Check if there are programs for the selected department
     if (empty($programs)) {
         echo "<div class='col-12 text-center py-5'>
                 <p class='text-muted'>No available programs for this department.</p>

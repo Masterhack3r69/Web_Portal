@@ -1,5 +1,5 @@
 <?php
-ob_start(); 
+ob_start();
 $title = "Create News & Updates";
 include '../includes/header.php';
 
@@ -50,16 +50,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $result = query($sql, [$title, $small_description, $content, $image_url, $department_id, $program_id, $created_by, $status]);
 
-        if ($result) {
+         if ($result) {
             $_SESSION['success_message'] = "News added successfully!";
-            
+            audit_log('news', 'Create', 'News added successfully');
             header('Location: enquires.php');
             exit; 
         } else {
             $_SESSION['warning_message'] = "The news could not be added.";
+            audit_log('news', 'Create Failed', 'Failed to add news');
         }
     } catch (Exception $e) {
         $_SESSION['error_message'] = "Error: " . $e->getMessage();
+        audit_log('news', 'Create Error', 'Error adding news ', $e->getMessage());
     }
 }
 
@@ -71,9 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="card-header pb-0">
                 <h5>
                     News and Updates
-                    <a href="enquires.php" class="btn bg-gradient-light float-end d-none d-lg-inline">back</a>
-                    <a href="cenquires.php" class="btn bg-gradient-primary float-end d-inline d-lg-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add News and Updates">
-                        <i class="fa fa-plus"></i>
+                    <a href="enquires.php" class="btn bg-gradient-dark float-end">back</a>
                     </a>
                 </h5> 
             </div>
@@ -89,7 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="col-12">
                         <label for="content" class="form-label">Content:</label>
-                        <textarea name="content" class="form-control summernote" id="content" rows="3" required></textarea>         
+                        <input type="hidden" name="content" id="content">
+                        <div id="editor-content" style="height: 200px;"></div>
                     </div>
                     <div class="col-md-6">
                         <label for="image_url" class="form-label">Image URL:</label>

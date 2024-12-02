@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $title = "Create Local Admin";
 include '../includes/header.php';
 
@@ -22,8 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($result) {
                 $_SESSION['success_message'] = "Local admin updated successfully!";
+                audit_log('Local Admin', 'Create', 'Local Admin created successfully assign in department');
+                header('Location:  local_admin.php');
             } else {
                 $_SESSION['warning_message'] = "Failed to update local admin.";
+                audit_log('Local Admin', 'Create Failed', 'Local Admin created failed to assign in department' );
             }
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Error: " . $e->getMessage();

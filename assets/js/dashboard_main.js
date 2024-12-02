@@ -1,13 +1,27 @@
-// summer note
-$(document).ready(function() {
-$(".summernote").summernote({
-placeholder: 'Write here',
-tabsize: 2,
-height: 100
-});
-$('.dropdown-toggle').dropdown();
+  document.addEventListener('DOMContentLoaded', function() {
+    var dropdownElementList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'))
+    var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+      return new bootstrap.Dropdown(dropdownToggleEl)
+    });
+  });
 
-});
+  function markMessagesAsRead(event, adminType, departmentId) {
+    const notificationDot = event.currentTarget.parentElement.querySelector('.notification-dot');
+    
+    let url = window.location.href;
+    url += (url.includes('?') ? '&' : '?') + 'view_messages=1';
+    
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          // Hide notification dot
+          if (notificationDot) {
+            notificationDot.style.display = 'none';
+          }
+        }
+      })
+      .catch(error => console.error('Error marking messages as read:', error));
+  }
 
 var win = navigator.platform.indexOf('Win') > -1;
 if (win && document.querySelector('#sidenav-scrollbar')) {

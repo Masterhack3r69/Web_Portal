@@ -1,5 +1,5 @@
 <?php
-ob_start(); // Start output buffering
+ob_start(); 
 $title = "Edit News & Updates";
 include '../includes/header.php';
 
@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $params[] = $_POST['program_id'];
     }
 
-    // If an image file is uploaded, handle it
     $image_url = $news['image_url'];
     if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == UPLOAD_ERR_OK) {
         $logoDir = '../../../assets/img/uploads/';
@@ -52,13 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $imageFilePath = $logoDir . $uniqueImageName;
 
         if (move_uploaded_file($_FILES['image_url']['tmp_name'], $imageFilePath)) {
-            $image_url = $uniqueImageName; // Update the image URL if uploaded successfully
+            $image_url = $uniqueImageName; 
         } else {
             $_SESSION['error_message'] = "Error uploading the image file.";
         }
     }
 
-    // Add image URL to params if it was updated
     if ($image_url != $news['image_url']) {
         $updateFields[] = "image_url = ?";
         $params[] = $image_url;
@@ -68,17 +66,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "UPDATE news SET " . implode(', ', $updateFields) . " WHERE id = ?";
         $params[] = $news_id;
 
-        try {
+         try {
             $result = query($sql, $params);
             if ($result) {
                 $_SESSION['success_message'] = "News updated successfully!";
+                audit_log('news', 'Update', 'News updated successfull');
                 header('Location:  enquires.php');
                 exit; 
             } else {
                 $_SESSION['warning_message'] = "The news could not be updated.";
+                audit_log('news', 'Update Failed', 'Failed to update news');
             }
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Error: " . $e->getMessage();
+            audit_log('news', 'Update Error', 'Error updating news');
         }
     }
 }

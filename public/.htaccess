@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^view_program/([0-9]+)$ view_program.php?id=$1 [L,QSA]
+RewriteRule ^view_department/([0-9]+)$ view_department.php?id=$1 [L,QSA]
+
